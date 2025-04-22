@@ -2,55 +2,42 @@
 
 import { useState } from "react";
 import Button from "@/components/ui/btn";
+import ImageUpload from "./image-upload";
+import { categories } from "@/lib/constants";
+import { FeedbackFormData } from "@/lib/types";
+import { createClient } from "@/utils/supabase/client";
+import { Sparkles, Info } from "lucide-react";
+import { motion } from "motion/react";
 
 export default function FeedbackForm() {
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    regNumber: "",
-    faculty: "",
-    department: "",
+  const [formData, setFormData] = useState<FeedbackFormData>({
     category: "",
     subject: "",
     message: "",
+    recommendation: "",
+    image_urls: [],
+    is_anonymous: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [tooltipVisible, setTooltipVisible] = useState("");
 
-  const faculties = [
-    "Faculty of Agriculture",
-    "Faculty of Arts and Islamic Studies",
-    "Faculty of Communication",
-    "Faculty of Computer Science and IT",
-    "Faculty of Dentistry",
-    "Faculty of Education",
-    "Faculty of Engineering",
-    "Faculty of Law",
-    "Faculty of Life Sciences",
-    "Faculty of Management Sciences",
-    "Faculty of Medicine",
-    "Faculty of Pharmaceutical Sciences",
-    "Faculty of Social Sciences",
-  ];
 
-  const categories = [
-    "Academic Issues",
-    "Campus Facilities",
-    "Student Welfare",
-    "Hostel/Accommodation",
-    "Security Concerns",
-    "Financial Issues",
-    "Student Activities",
-    "Other",
-  ];
-
+  const supabase = createClient()
+  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+  const handleImageUpload = (urls: string[]) => {
+    setFormData(prev => ({
+      ...prev,
+      image_urls: urls
+    }))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,20 +45,23 @@ export default function FeedbackForm() {
     
     // Simulate API call
     try {
-      // In a real implementation, you would send the data to your API
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Here you would typically send the formData to your API
+      // For example, using Supabase:
+      const { data, error } = await supabase
+        .from('feedbacks')
+        .insert([formData])
+        .select();
+      if (error) throw error;
       
       // Show success message
       setIsSubmitted(true);
       setFormData({
-        name: "",
-        email: "",
-        regNumber: "",
-        faculty: "",
-        department: "",
         category: "",
         subject: "",
         message: "",
+        recommendation: "",
+        image_urls: [],
+        is_anonymous: false,
       });
     } catch (error) {
       console.error("Error submitting feedback:", error);
@@ -142,7 +132,7 @@ export default function FeedbackForm() {
       </div>
 
       {/* Personal Info (Hidden if Anonymous) */}
-      {!isAnonymous && (
+      {/* {!isAnonymous && (
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -198,10 +188,10 @@ export default function FeedbackForm() {
             />
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Academic Info */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label
             htmlFor="faculty"
@@ -242,25 +232,25 @@ export default function FeedbackForm() {
             required
           />
         </div>
-      </div>
+      </div> */}
 
       {/* Feedback Details */}
-      <div>
+      <div className="mb-6">
         <label
           htmlFor="category"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block font-medium mb-2 text-[14px]"
         >
-          Category
+          Category <span className="text-red-500">*</span>
         </label>
         <select
           id="category"
           name="category"
           value={formData.category}
           onChange={handleChange}
-          className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="lock w-full p-3 pl-4 pr-10 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 bg-white appearance-none"
           required
         >
-          <option value="">Select Category</option>
+          <option value="" disabled>What's this about?</option>
           {categories.map((category) => (
             <option key={category} value={category}>
               {category}
@@ -269,14 +259,25 @@ export default function FeedbackForm() {
         </select>
       </div>
 
-      <div>
+      <div className="mb-6">
         <label
           htmlFor="subject"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block font-medium mb-2 text-[14px]"
         >
-          Subject
+          Subject <span className="text-red-500">*</span>
         </label>
         <input
+          type="text"
+          id="subject"
+          name="subject"
+          value={formData.subject}
+          onChange={handleChange}
+          className="block w-full p-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+          required
+          // placeholder="Brief title of your feedback"
+          placeholder="Give your feedback a catchy title"
+        />
+        {/* <Input 
           type="text"
           id="subject"
           name="subject"
@@ -285,26 +286,70 @@ export default function FeedbackForm() {
           className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           required
           placeholder="Brief title of your feedback"
-        />
+        /> */}
       </div>
 
-      <div>
+      <div className="mb-6">
         <label
           htmlFor="message"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block font-medium mb-2 text-[14px]"
         >
-          Your Message
+          Your Message <span className="text-red-500">*</span>
         </label>
         <textarea
           id="message"
           name="message"
-          rows={6}
+          rows={5}
           value={formData.message}
           onChange={handleChange}
-          className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="block w-full p-3 text-base border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
           required
-          placeholder="Explain your concern, feedback, or suggestion in detail..."
+          // placeholder="Explain your concern, feedback, or suggestion in detail..."
+          placeholder="Spill the tea! Tell us what's on your mind..."
         ></textarea>
+      </div>
+
+      <div className="mb-8">
+            <div className="flex items-center gap-2 mb-2">
+              <label className="block font-medium text-[14px]">Recommendation</label>
+              <div 
+                className="relative cursor-pointer" 
+                onMouseEnter={() => setTooltipVisible("recommendation")}
+                onMouseLeave={() => setTooltipVisible("")}
+              >
+                <Info size={16} className="text-gray-400" />
+                {tooltipVisible === "recommendation" && (
+                  <div className="absolute z-10 w-64 p-2 text-xs bg-gray-800 text-white rounded shadow-lg -left-32 bottom-6">
+                    Suggest how we could improve or what you'd like to see!
+                  </div>
+                )}
+              </div>
+            </div>
+            <motion.div 
+              whileHover={{ y: -3 }}
+              className="relative bg-blue-50 rounded-lg p-4 border border-blue-100"
+            >
+              <Sparkles size={18} className="absolute right-4 top-4 text-blue-400" />
+              <textarea
+                name="recommendation"
+                value={formData.recommendation}
+                onChange={handleChange}
+                placeholder="Got ideas on how we can do better? We're all ears! 👂"
+                rows={3}
+                className="block w-full bg-transparent text-base resize-none focus:outline-none placeholder:text-blue-300"
+              />
+            </motion.div>
+          </div>
+
+      {/* Image Upload */}
+      <div className="mb-6">
+        <label
+          htmlFor="image"
+          className="block font-medium mb-2 text-[14px]"
+        >
+          Upload Images (optional)
+        </label>
+        <ImageUpload onUpload={handleImageUpload} />
       </div>
 
       <div className="flex items-center">
