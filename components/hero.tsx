@@ -1,44 +1,40 @@
-import NextLogo from "./next-logo";
-import SupabaseLogo from "./supabase-logo";
+import React from 'react'
+import Button from './ui/btn'
 
-export default function Header() {
+function Hero() {
   return (
-    <div className="flex flex-col gap-16 items-center">
-      <div className="flex gap-8 justify-center items-center">
-        <a
-          href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <SupabaseLogo />
-        </a>
-        <span className="border-l rotate-45 h-6" />
-        <a href="https://nextjs.org/" target="_blank" rel="noreferrer">
-          <NextLogo />
-        </a>
-      </div>
-      <h1 className="sr-only">Supabase and Next.js Starter Template</h1>
-      <p className="text-3xl lg:text-4xl !leading-tight mx-auto max-w-xl text-center">
-        The fastest way to build apps with{" "}
-        <a
-          href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-          target="_blank"
-          className="font-bold hover:underline"
-          rel="noreferrer"
-        >
-          Supabase
-        </a>{" "}
-        and{" "}
-        <a
-          href="https://nextjs.org/"
-          target="_blank"
-          className="font-bold hover:underline"
-          rel="noreferrer"
-        >
-          Next.js
-        </a>
-      </p>
-      <div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent my-8" />
-    </div>
-  );
+    <section className="w-full bg-gradient-to-r from-blue-400 to-blue-500 text-white p-4 sm:px-20">
+        <div className="container mx-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8 md:py-24">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="md:w-1/2 space-y-6">
+              <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+                Your Voice Matters at BUK
+              </h1>
+              <p className="text-lg md:text-xl opacity-90">
+              SUGBUK bridges the communication gap between students and their representatives.{" "}
+              Stay updated, report concerns, and make your voice heard with our trusted platform.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button href="/talk-to-rep" variant="primary">
+                  Talk to Your Rep
+                </Button>
+                <Button href="/about" variant="secondary">
+                  Learn About SUGBUK
+                </Button>
+              </div>
+            </div>
+            <div className="md:w-1/2 rounded-lg shadow-xl bg-white p-2 mt-8 md:mt-0">
+              <div className="bg-gray-200 w-full h-64 md:h-80 rounded relative">
+                {/* Placeholder for hero image */}
+                <div className="absolute inset-0 flex items-center justify-center text-gray-500">
+                  University Campus Image
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  )
 }
+
+export default Hero
