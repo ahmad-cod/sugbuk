@@ -46,8 +46,8 @@ export default function ImageUpload({ onUpload }: ImageUploadProps) {
   };
 
   return (
-    <div>
-      <h2>Upload Images</h2>
+    <div className='pt-3'>
+      {/* <h2>Upload Images</h2> */}
       <input
         type="file"
         accept="image/*"
