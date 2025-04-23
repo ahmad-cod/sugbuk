@@ -26,13 +26,10 @@ export interface TeamMember {
 }
 
 export interface FeedbackFormData {
-  name: string;
-  email: string;
-  regNumber: string;
-  faculty: string;
-  department: string;
   category: string;
   subject: string;
   message: string;
-  isAnonymous: boolean;
+  recommendation?: string;
+  image_urls?: string[];
+  is_anonymous: boolean;
 }
