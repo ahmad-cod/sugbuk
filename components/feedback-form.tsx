@@ -22,9 +22,6 @@ export default function FeedbackForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [tooltipVisible, setTooltipVisible] = useState("");
-
-
-  const supabase = createClient()
   
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -42,15 +39,23 @@ export default function FeedbackForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    const supabase = createClient()
     
-    // Simulate API call
     try {
-      // Here you would typically send the formData to your API
-      // For example, using Supabase:
-      const { data, error } = await supabase
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      const feedbackData = {
+        ...formData,
+        is_anonymous: isAnonymous,
+        user_id: user?.id,
+      };
+
+      const { error } = await supabase
         .from('feedbacks')
-        .insert([formData])
-        .select();
+        .insert([feedbackData])
+      
+
       if (error) throw error;
       
       // Show success message
