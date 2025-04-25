@@ -14,7 +14,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: 'About Us', sectionId: 'about' },
   { label: 'How It Works', sectionId: 'how-it-works' },
-  { label: 'FAQs', sectionId: 'faqs' },
+  // { label: 'FAQs', sectionId: 'faqs' },
 ];
 
 const Navbar = () => {
