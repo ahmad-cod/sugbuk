@@ -45,14 +45,14 @@ const Navbar = () => {
             <Link className="flex items-center justify-center" href={"/"}>    
            
               <Image
-                src="/buk-logo.png" 
+                src="/sug-logo.jpeg" 
                 alt="Logo" 
-                width={160}
-                height={50}
-                className="h-10 w-auto"
+                width={240}
+                height={100}
+                className="h-14 w-auto"
                 priority
               />
-              {" "}SUGBUK
+              {/* {" "}SUGBUK */}
               </Link>
           </div>
 
