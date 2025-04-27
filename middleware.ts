@@ -1,9 +1,78 @@
-import { type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
+// import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from "./utils/supabase/server";
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+  // First, update the session (from the Supabase template)
+  const response = await updateSession(request);
+  
+  // Get the path
+  const path = request.nextUrl.pathname;
+  
+  // Skip middleware logic for excluded paths
+  if (path.includes('_next') || path.includes('favicon.ico') || /\.(svg|png|jpg|jpeg|gif|webp)$/.test(path)) {
+    return response;
+  }
+  
+  // Create a Supabase client for middleware
+  // const supabase = createMiddlewareClient({ req: request, res: response });
+  const supabase = await createClient();
+  
+  // Check if the user is authenticated
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // Handle redirects based on authentication status and profile completion
+  if (user) {
+    // User is authenticated
+    // console.log('User is authenticated:', user.id);
+    
+    // Skip profile check for API routes and certain paths
+    if (path.startsWith('/api/') || path === '/auth/callback') {
+      return response;
+    }
+    
+    // Check if the user has completed their profile
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('user_id', user.id)
+      .single();
+    
+    // If user is authenticated but doesn't have a profile
+    const hasProfile = profile && !error;
+    
+    // If trying to access the create-profile page but already has a profile
+    if (path === '/create-profile' && hasProfile) {
+      // return NextResponse.redirect(new URL('/dashboard', request.url));
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+    
+    // If accessing protected pages but doesn't have a profile
+    if (!hasProfile && !path.startsWith('/create-profile') && 
+        path !== '/auth/signout' && 
+        !path.startsWith('/auth/')) {
+      return NextResponse.redirect(new URL('/create-profile', request.url));
+    }
+    
+    // If accessing login/signup pages while logged in
+    if ((path === '/login' || path === '/signup') && hasProfile) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+  } else {
+    // User is not authenticated
+    
+    // If trying to access protected pages
+    if (path.startsWith('/dashboard') || 
+        path === '/create-profile' || 
+        path.startsWith('/profile')) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+  }
+  
+  return response;
 }
+
 
 export const config = {
   matcher: [
