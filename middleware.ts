@@ -1,7 +1,10 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
-// import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
 import { createClient } from "./utils/supabase/server";
+
+// 1. Specify Protected and Public Routes
+const protectedRoutes = ['/feedbacks', '/create-profile', '/profile'];
+const publicRoutes = ['/sign-in', '/sign-up', '/'];
 
 export async function middleware(request: NextRequest) {
   // First, update the session (from the Supabase template)
@@ -9,14 +12,17 @@ export async function middleware(request: NextRequest) {
   
   // Get the path
   const path = request.nextUrl.pathname;
+  console.log('Path: ', path)
   
   // Skip middleware logic for excluded paths
   if (path.includes('_next') || path.includes('favicon.ico') || /\.(svg|png|jpg|jpeg|gif|webp)$/.test(path)) {
     return response;
   }
-  
-  // Create a Supabase client for middleware
-  // const supabase = createMiddlewareClient({ req: request, res: response });
+
+  // 2. Check if the current path is in the protected or public routes
+  const isProtectedRoute = protectedRoutes.includes(path);
+  const isPublicRoute = publicRoutes.includes(path);
+
   const supabase = await createClient();
   
   // Check if the user is authenticated
@@ -25,7 +31,6 @@ export async function middleware(request: NextRequest) {
   // Handle redirects based on authentication status and profile completion
   if (user) {
     // User is authenticated
-    // console.log('User is authenticated:', user.id);
     
     // Skip profile check for API routes and certain paths
     if (path.startsWith('/api/') || path === '/auth/callback') {
@@ -50,23 +55,21 @@ export async function middleware(request: NextRequest) {
     
     // If accessing protected pages but doesn't have a profile
     if (!hasProfile && !path.startsWith('/create-profile') && 
-        path !== '/auth/signout' && 
+        path !== '/auth/signout' &&
         !path.startsWith('/auth/')) {
       return NextResponse.redirect(new URL('/create-profile', request.url));
     }
     
-    // If accessing login/signup pages while logged in
-    if ((path === '/login' || path === '/signup') && hasProfile) {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
+    // If accessing sign-in/signup pages while logged in
+    if ((path === '/sign-in' || path === '/signup') && hasProfile) {
+      return NextResponse.redirect(new URL('/', request.url));
     }
   } else {
     // User is not authenticated
     
     // If trying to access protected pages
-    if (path.startsWith('/dashboard') || 
-        path === '/create-profile' || 
-        path.startsWith('/profile')) {
-      return NextResponse.redirect(new URL('/login', request.url));
+    if (isProtectedRoute) {
+      return NextResponse.redirect(new URL('/sign-in', request.url));
     }
   }
   
