@@ -5,6 +5,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { ProfileProvider } from "@/contexts/ProfileContext";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -14,7 +15,8 @@ export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: "SUGBUK - Student Union Government | Bayero University, Kano",
   titleTemplate: "%s | SUGBUK",
-  description: "Official platform for the Student Union Government of Bayero University, Kano.",
+  description:
+    "Official platform for the Student Union Government of Bayero University, Kano.",
 };
 
 const geistSans = Geist({
@@ -30,18 +32,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
       <body className="min-h-screen bg-gray-50 flex flex-col">
+        <ProfileProvider>
           <Navbar />
           <main className="flex flex-col items-center gap-10 sm:gap-20">
-       
-                    {/* <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
                       <DeployButton />
                     </div> */}
-                  {/* </div> */}
-                  {/* {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />} */}
-       
+            {/* </div> */}
+            {/* {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />} */}
+
             {children}
           </main>
           <Footer />
+        </ProfileProvider>
       </body>
     </html>
   );
