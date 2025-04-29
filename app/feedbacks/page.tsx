@@ -4,20 +4,62 @@ import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "motion/react"
 import { X, MessageSquare, Award, User, UserMinus } from "lucide-react";
 import FeedbackImages from "@/components/feedback-images";
+import { useProfile } from "@/contexts/ProfileContext";
+
+export interface FeedbackWithUser {
+  id: string;
+  content: string;
+  rating: number;
+  created_at: string;
+  user_id: string;
+  profile: {
+    first_name: string;
+    last_name: string;
+    avatar_url: string | null;
+  };
+}
 
 export default function FeedbacksPage() {
+  const { profile } = useProfile()
   const [feedbacks, setFeedbacks] = useState<any[] | null>(null)
   const [selectedFeedback, setSelectedFeedback] = useState<any | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const supabase = createClient()
   
   useEffect(() => {
-    const getData = async () => {
-      const { data } = await supabase.from('feedbacks').select()
-      setFeedbacks(data)
-    }
-
-    getData()
+    fetchFeedbacks()
   }, [])
+
+  const fetchFeedbacks = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const { data, error } = await supabase
+        .from('feedbacks')
+        .select(`
+          *,
+          profiles:profile_id (
+            first_name,
+            last_name,
+            avatar_url
+          )
+        `)
+        .order('created_at', { ascending: false })
+      if (error) {
+        throw error
+      }
+      console.log('feedbacks: ', data)
+      setFeedbacks(data as FeedbackWithUser[]) 
+    } catch (error) {
+      console.error("Error fetching feedbacks:", error)
+      setError("Failed to fetch feedbacks")
+    } finally {
+      setLoading(false)
+      console.log(feedbacks)
+    }
+  }
 
   const handleClose = () => {
     setSelectedFeedback(null)
@@ -69,7 +111,9 @@ export default function FeedbacksPage() {
                   ) : (
                     <User size={16} className="mr-1" />
                   )}
-                  <span>{feedback.is_anonymous ? "Anonymous" : "User"}</span>
+                  <span>
+                    {feedback.is_anonymous ? "Anonymous" : feedback.profiles.first_name + " " + feedback.profiles.last_name}
+                  </span>
                 </div>
                 {feedback.recommendation && (
                   <div className="flex items-center text-green-600">
