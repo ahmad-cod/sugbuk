@@ -5,12 +5,14 @@ import Button from "@/components/ui/btn";
 import ImageUpload from "./image-upload";
 import { categories } from "@/lib/constants";
 import { FeedbackFormData } from "@/lib/types";
+import { useProfile } from "@/contexts/ProfileContext";
 import { createClient } from "@/utils/supabase/client";
 import { Sparkles, Info } from "lucide-react";
 import { motion } from "motion/react";
 
 export default function FeedbackForm() {
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const { profile } = useProfile();
   const [formData, setFormData] = useState<FeedbackFormData>({
     category: "",
     subject: "",
@@ -42,13 +44,11 @@ export default function FeedbackForm() {
 
     const supabase = createClient()
     
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+    try {      
       const feedbackData = {
         ...formData,
         is_anonymous: isAnonymous,
-        user_id: user?.id,
+        profile_id: profile?.id,
       };
 
       const { error } = await supabase
