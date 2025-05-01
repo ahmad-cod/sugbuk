@@ -49,6 +49,7 @@ export default function FeedbackForm() {
         ...formData,
         is_anonymous: isAnonymous,
         profile_id: profile?.id,
+        user_id: profile?.user_id,
       };
 
       const { error } = await supabase
