@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
+import { useProfile } from '@/contexts/ProfileContext';
 
 type ProfileFormData = {
   firstName: string;
@@ -17,6 +18,7 @@ type ProfileFormData = {
 export default function CreateProfile() {
   const router = useRouter();
   const supabase = createClient();
+  const { refreshProfile } = useProfile();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -100,6 +102,7 @@ export default function CreateProfile() {
       }
       
       // Redirect to feedbacks dashboard on success
+      refreshProfile();
       router.push('/feedbacks');
       
     } catch (err: any) {
