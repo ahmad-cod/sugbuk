@@ -2,6 +2,7 @@ import { EnvVarWarning } from "@/components/env-var-warning";
 import HeaderAuth from "@/components/header-auth";
 import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { Geist } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -44,6 +45,13 @@ export default function RootLayout({
             {/* </div> */}
             {/* {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />} */}
 
+            <Toaster
+              position="top-center" 
+              toastOptions={{
+                duration: 5000,
+                className: "flex items-center justify-center gap-2 font-inter animate-pulse",
+              }}
+            />
             {children}
           </main>
           <Footer />
