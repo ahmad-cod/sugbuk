@@ -6,15 +6,18 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { ProfileProvider } from "@/contexts/ProfileContext";
+import type { Metadata } from "next";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "SUGBUK - Student Union Government | Bayero University, Kano",
-  titleTemplate: "%s | SUGBUK",
+  title: {
+    default: "SUGBUK - Student Union Government | Bayero University, Kano",
+    template: "%s | SUG-BUK",
+  },
   description:
     "Official platform for the Student Union Government of Bayero University, Kano.",
 };
