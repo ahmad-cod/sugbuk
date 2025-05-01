@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "motion/react"
 import { X, MessageSquare, Award, User, UserMinus } from "lucide-react";
 import FeedbackImages from "@/components/feedback-images";
 import { useProfile } from "@/contexts/ProfileContext";
+import toast from "react-hot-toast";
 
 export interface FeedbackWithUser {
   id: string;
@@ -61,12 +62,80 @@ export default function FeedbacksPage() {
     }
   }
 
+  const handleDeleteFeedback = async (feedbackId: string) => {
+    if (!profile) return
+    // if (profile.role !== 'admin') {
+
+    setLoading(true)
+    setError(null)
+    try {
+      // first check if the feedback belongs to the user
+      const { data, error: fetchError } = await supabase
+        .from('feedbacks')
+        .select('profile_id')
+        .eq('id', feedbackId)
+        .single()
+
+      if (fetchError) throw fetchError
+      if (data.profile_id !== profile.id) {
+        setError("You are not authorized to delete this feedback")
+        return
+      }
+
+      console.log('Data from delete', data)
+
+      const { error } = await supabase
+        .from('feedbacks')
+        .delete()
+        .eq('id', feedbackId)
+      if (error) {
+        throw error
+      }
+      setFeedbacks((prevFeedbacks) => prevFeedbacks?.filter((feedback) => feedback.id !== feedbackId) || null)
+    } catch (error) {
+      console.error("Error deleting feedback:", error)
+      setError("Failed to delete feedback")
+      toast.error("Failed to delete feedback")
+    } finally {
+      setLoading(false)
+    }
+  }
+  const handleEdit = async (feedbackId: string, updatedFeedback: any) => {
+    setLoading(true)
+    setError(null)
+    try {
+      const { error } = await supabase
+        .from('feedbacks')
+        .update(updatedFeedback)
+        .eq('id', feedbackId)
+      if (error) {
+        throw error
+      }
+      setFeedbacks((prevFeedbacks) => {
+        if (!prevFeedbacks) return null
+        return prevFeedbacks.map((feedback) => {
+          if (feedback.id === feedbackId) {
+            return { ...feedback, ...updatedFeedback }
+          }
+          return feedback
+        })
+      })
+    } catch (error) {
+      console.error("Error updating feedback:", error)
+      setError("Failed to update feedback")
+    } finally {
+      setLoading(false)
+    }
+  }
   const handleClose = () => {
     setSelectedFeedback(null)
   }
 
   if (!feedbacks) {
     return <div>Loading...</div>
+  }
+  if (feedbacks.length === 0) {
+    return <div className="text-center p-6">No feedbacks available yet.</div>;
   }
   return (
       <div className="container mx-auto px-4 py-12 max-w-7xl">
@@ -191,14 +260,26 @@ export default function FeedbacksPage() {
                 )}
 
                 {/* Footer Info */}
-                <div className="flex items-center justify-end text-sm text-gray-500 pt-4 border-t border-gray-100">
+                <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-gray-100">
+                   {/* Show delete button only for the user's own feedback */}
+                  {profile && profile.id === selectedFeedback.profile_id && (
+                    <button
+                      onClick={() => handleDeleteFeedback(selectedFeedback.id)}
+                      className="text-red-500 hover:text-red-700 ml-2"
+                      aria-label="Delete feedback"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  )}
                   <div className="flex items-center">
                     {selectedFeedback.is_anonymous ? (
                       <UserMinus size={16} className="mr-1" /> 
                     ) : (
                       <User size={16} className="mr-1" />
                     )}
-                    <span>{selectedFeedback.is_anonymous ? "Submitted anonymously" : "User feedback"}</span>
+                    <span>{selectedFeedback.is_anonymous ? "Submitted anonymously" : selectedFeedback.profiles.first_name + " " + selectedFeedback.profiles.last_name}</span>
                   </div>
                 </div>
               </div>
