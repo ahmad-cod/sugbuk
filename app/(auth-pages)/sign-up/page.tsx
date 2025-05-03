@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -23,6 +23,7 @@ type FormErrors = {
 
 export default function SignUp() {
   const router = useRouter();
+  const emailRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
@@ -32,6 +33,13 @@ export default function SignUp() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Focus on the email input field when the component mounts
+    if (emailRef.current) {
+      emailRef.current.focus();
+    }
+  }, []);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -171,6 +179,7 @@ export default function SignUp() {
                       name="email"
                       type="email"
                       autoComplete="email"
+                      ref={emailRef}
                       required
                       value={formData.email}
                       onChange={handleChange}
