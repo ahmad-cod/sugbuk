@@ -57,3 +57,12 @@ export interface ProfileFormData {
   level?: string;
   studentId?: string;
 }
+
+export interface PostFormData {
+  title: string;
+  content: string[];
+  tags: string[];
+  cover_image?: string;
+  status: 'draft' | 'published';
+  author_id: string;
+}
