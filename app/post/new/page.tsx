@@ -2,16 +2,19 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, Image as ImageIcon, Bold, Italic, Link, List, ListOrdered, Code, Quote, Hash, FileImage, MoreHorizontal, Trash2, RefreshCw } from 'lucide-react';
-// For production, we'd use a proper markdown library
 import MarkdownPreview from './markdown-preview';
+import { createClient } from '@/utils/supabase/client';
 import { useCloudinaryUpload } from '@/hooks/useCloudinaryUpload';
 import MDEditor from '@uiw/react-md-editor';
 import { PostFormData } from '@/lib/types';
+import { useProfile } from '@/contexts/ProfileContext';
+import toast from 'react-hot-toast';
 
 export default function CreatePostForm() {
   const { uploadImage, uploading, progress, error } = useCloudinaryUpload();
   const [activeTab, setActiveTab] = useState<'edit' | 'preview'>('edit');
-  const [contentDisplay, setContentDisplay] = useState('');
+  // const [contentDisplay, setContentDisplay] = useState('');
+  const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [allContent, setAllContent] = useState<string[]>([]);
@@ -24,6 +27,7 @@ export default function CreatePostForm() {
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverImageInputRef = useRef<HTMLInputElement>(null);
+  const { profile } = useProfile();
   
   useEffect(() => {
     const checkIfMobile = () => {
@@ -47,7 +51,7 @@ export default function CreatePostForm() {
       return () => clearTimeout(timer);
     }
   }, [activeTab, content]);
-
+  
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === '/' && document.activeElement === contentRef.current) {
@@ -58,10 +62,12 @@ export default function CreatePostForm() {
         setShowFormatMenu(false);
       }
     };
-
+    
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
+  
+  const supabase = createClient();
 
   const handleTagKeyDown = (e: React.KeyboardEvent) => {
     if ((e.key === 'Enter' || e.key === ',') && tagInput.trim() !== '') {
@@ -106,6 +112,7 @@ export default function CreatePostForm() {
       reader.readAsDataURL(file);
 
       try {
+        setFile(file);
         // const coverImageUrl = await uploadImage(file);
         // setCoverImage(coverImageUrl);
       } catch (error) {
@@ -248,10 +255,15 @@ export default function CreatePostForm() {
     const text = e.target.value;
     setContent(text);
     const formattedText = formatContent(text);
-    setContentDisplay(formattedText);
+    // setContentDisplay(formattedText);
   }
 
   const handlePublish = async () => {
+    if (!profile) {
+      alert('Please log in to publish a post');
+      return;
+    }
+
     if (!title || !content) {
       alert('Please fill in all fields');
       return;
@@ -281,6 +293,10 @@ export default function CreatePostForm() {
       return;
     }
     console.log(content)
+    const coverImageUrl = file ? await uploadImage(file) : null;
+    if (coverImageUrl) {
+      setCoverImage(coverImageUrl);
+    }
     setAllContent(content.split('\n').map(paragraph => paragraph.trim()).filter(paragraph => paragraph !== ''));
     console.log('all content', allContent);
     const postData: PostFormData = {
@@ -288,22 +304,20 @@ export default function CreatePostForm() {
       content: allContent,
       tags,
       cover_image: coverImage ? coverImage : undefined,
-      isDraft: false,
+      author_id: profile.user_id,
+      is_published: true,
     };
     console.log(postData);
     try {
-      const response = await fetch('/api/posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(postData),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to publish post');
-      }
-      const data = await response.json();
+      const { data, error } = await supabase
+        .from('posts')
+        .insert([postData])
+        .select();
       console.log('Post published successfully:', data);
+      if (error) {
+        console.error('Error publishing post:', error);
+        toast.error('Error publishing post');
+      }
     } catch (error) {
       console.error('Error publishing post:', error);
     }
