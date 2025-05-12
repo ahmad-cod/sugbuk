@@ -1,9 +1,7 @@
-import { EnvVarWarning } from "@/components/env-var-warning";
-import HeaderAuth from "@/components/header-auth";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { Geist } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
+import { Poppins, Roboto } from "next/font/google";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { ProfileProvider } from "@/contexts/ProfileContext";
@@ -12,6 +10,21 @@ import type { Metadata } from "next";
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-poppins",
+  display: "swap",
+})
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-roboto",
+  display: "swap",
+  fallback: ["system-ui", "sans-serif"],
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
@@ -34,17 +47,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={geistSans.className} suppressHydrationWarning>
-      <body className="min-h-screen bg-gray-50 flex flex-col">
+    <html lang="en" className={`${poppins.variable} ${roboto.variable}`} suppressHydrationWarning>
+      <body className="min-h-screen font-body bg-gray-50">
         <ProfileProvider>
-          <Navbar />
+          {/* I might now want the navbar to display in all pages */}
+          <Navbar /> 
           <main className="flex flex-col items-center gap-10 sm:gap-20">
-            {/* <div className="flex items-center gap-2">
-                      <DeployButton />
-                    </div> */}
-            {/* </div> */}
-            {/* {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />} */}
-
             <Toaster
               position="top-center" 
               toastOptions={{
