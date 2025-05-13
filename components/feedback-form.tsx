@@ -6,10 +6,10 @@ import ImageUpload from "./image-upload";
 import { categories } from "@/lib/constants";
 import { FeedbackFormData } from "@/lib/types";
 import { useProfile } from "@/contexts/ProfileContext";
-import { createClient } from "@/utils/supabase/client";
 import { Sparkles, Info } from "lucide-react";
 import { motion } from "motion/react";
 import { useSupabase } from "@/hooks/useSupabase";
+import toast from "react-hot-toast";
 
 export default function FeedbackForm() {
   const [isAnonymous, setIsAnonymous] = useState(false);
@@ -31,21 +31,26 @@ export default function FeedbackForm() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    if (!name) {
+      console.warn("Input element is missing a name attribute");
+      return;
+    }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
   const handleImageUpload = (urls: string[]) => {
     setFormData(prev => ({
       ...prev,
-      image_urls: urls
-    }))
+      image_urls: [...prev.image_urls!, ...urls]
+    }));
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    if (!formData.category) {
+      toast.error("Please select a valid category.");
+      return;
+    }
 
-    const supabase = createClient()
-    
     try {      
       const feedbackData = {
         ...formData,
@@ -54,10 +59,7 @@ export default function FeedbackForm() {
         user_id: profile?.user_id,
       };
 
-      const { error } = await supabase
-        .from('feedbacks')
-        .insert([feedbackData])
-      
+      const { error } = await insertFeedback(feedbackData);
 
       if (error) throw error;
       
@@ -73,6 +75,7 @@ export default function FeedbackForm() {
       });
     } catch (error) {
       console.error("Error submitting feedback:", error);
+      toast.error("Failed to submit feedback. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -80,35 +83,10 @@ export default function FeedbackForm() {
 
   if (isSubmitted) {
     return (
-      <div className="text-center py-8">
-        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-          <svg
-            className="h-6 w-6 text-green-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
-        </div>
-        <h3 className="text-lg font-medium text-gray-900 mb-2">Thank you for your feedback!</h3>
-        <p className="text-gray-600 mb-6">
-          {isAnonymous
-            ? "Your anonymous feedback has been submitted successfully."
-            : "We've received your feedback and will get back to you soon."}
-        </p>
-        <Button
-          variant="primary"
-          onClick={() => setIsSubmitted(false)}
-        >
-          Submit Another Feedback
-        </Button>
-      </div>
+      <FeedbackSuccessMessage
+        isAnonymous={isAnonymous}
+        handleReset={() => setIsSubmitted(false)}
+      />
     );
   }
 
@@ -282,7 +260,6 @@ export default function FeedbackForm() {
           onChange={handleChange}
           className="block w-full p-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
           required
-          // placeholder="Brief title of your feedback"
           placeholder="Brief title of your feedback"
         />
         {/* <Input 
@@ -312,7 +289,6 @@ export default function FeedbackForm() {
           onChange={handleChange}
           className="block w-full p-3 text-base border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
           required
-          // placeholder="Explain your concern, feedback, or suggestion in detail..."
           placeholder="Please share your feedback or concerns in detail..."
         ></textarea>
       </div>
@@ -320,17 +296,15 @@ export default function FeedbackForm() {
       <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
               <label className="block font-medium text-[14px]">Recommendation</label>
-              <div 
-                className="relative cursor-pointer" 
-                onMouseEnter={() => setTooltipVisible("recommendation")}
-                onMouseLeave={() => setTooltipVisible("")}
-              >
+              <div className="relative cursor-pointer">
                 <Info size={16} className="text-gray-400" />
-                {tooltipVisible === "recommendation" && (
-                  <div className="absolute z-10 w-64 p-2 text-xs bg-gray-800 text-white rounded shadow-lg -left-32 bottom-6">
-                    Suggest how we could improve or what you'd like to see!
-                  </div>
-                )}
+                <div
+                  className={`absolute z-10 w-64 p-2 text-xs bg-gray-800 text-white rounded shadow-lg -left-32 bottom-6 transition-opacity duration-200 ${
+                    tooltipVisible === "recommendation" ? "opacity-100" : "opacity-0 pointer-events-none"
+                  }`}
+                >
+                  Suggest how we could improve or what you'd like to see!
+                </div>
               </div>
             </div>
             <motion.div 
@@ -385,9 +359,75 @@ export default function FeedbackForm() {
           size="lg"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Submitting..." : "Submit Feedback"}
+          {isSubmitting ? (
+            <span className="flex items-center gap-2">
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              Submitting...
+            </span>
+          ) : (
+            "Submit Feedback"
+          )}
         </Button>
       </div>
     </form>
+  );
+}
+
+function FeedbackSuccessMessage({
+  isAnonymous,
+  handleReset,
+}: {
+  isAnonymous: boolean;
+  handleReset: () => void;
+}) {
+  return (
+    <div className="text-center py-8">
+      <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+        <svg
+          className="h-6 w-6 text-green-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      </div>
+      <h3 className="text-lg font-medium text-gray-900 mb-2">Thank you for your feedback!</h3>
+      <p className="text-gray-600 mb-6">
+        {isAnonymous
+          ? "Your anonymous feedback has been submitted successfully."
+          : "We've received your feedback and will get back to you soon."}
+      </p>
+      <Button
+        variant="primary"
+        onClick={handleReset}
+      >
+        Submit Another Feedback
+      </Button>
+    </div>
   );
 }
