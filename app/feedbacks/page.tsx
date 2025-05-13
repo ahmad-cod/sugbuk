@@ -42,7 +42,7 @@ export default function FeedbacksPage() {
       <h1 className="text-3xl font-bold mb-8 text-gray-800">Feedback</h1>
       
       {/* Feedback Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 [grid-template-rows:masonry] sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {feedbacks.map((feedback, index) => (
           <motion.div
             key={index}
