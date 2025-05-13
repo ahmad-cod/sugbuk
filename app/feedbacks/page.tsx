@@ -1,16 +1,14 @@
 "use client"
-import { createClient } from "@/utils/supabase/client"
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "motion/react"
 import { X, MessageSquare, Award, User, UserMinus } from "lucide-react";
 import FeedbackImages from "@/components/feedback-images";
 import { useProfile } from "@/contexts/ProfileContext";
-import toast from "react-hot-toast";
+import { useFeedbacks } from "@/hooks/useFeedbacks";
 
 export interface FeedbackWithUser {
   id: string;
   content: string;
-  rating: number;
   created_at: string;
   user_id: string;
   profile: {
@@ -22,111 +20,13 @@ export interface FeedbackWithUser {
 
 export default function FeedbacksPage() {
   const { profile } = useProfile()
-  const [feedbacks, setFeedbacks] = useState<any[] | null>(null)
+  const { fetchFeedbacks, feedbacks, deleteFeedback } = useFeedbacks()
   const [selectedFeedback, setSelectedFeedback] = useState<any | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const supabase = createClient()
   
   useEffect(() => {
     fetchFeedbacks()
   }, [])
 
-  const fetchFeedbacks = async () => {
-    setLoading(true)
-    setError(null)
-
-    try {
-      const { data, error } = await supabase
-        .from('feedbacks')
-        .select(`
-          *,
-          profiles:profile_id (
-            first_name,
-            last_name,
-            avatar_url
-          )
-        `)
-        .order('created_at', { ascending: false })
-      if (error) {
-        throw error
-      }
-      console.log('feedbacks: ', data)
-      setFeedbacks(data as FeedbackWithUser[]) 
-    } catch (error) {
-      console.error("Error fetching feedbacks:", error)
-      setError("Failed to fetch feedbacks")
-    } finally {
-      setLoading(false)
-      console.log(feedbacks)
-    }
-  }
-
-  const handleDeleteFeedback = async (feedbackId: string) => {
-    if (!profile) return
-    // if (profile.role !== 'admin') {
-
-    setLoading(true)
-    setError(null)
-    try {
-      // first check if the feedback belongs to the user
-      const { data, error: fetchError } = await supabase
-        .from('feedbacks')
-        .select('profile_id')
-        .eq('id', feedbackId)
-        .single()
-
-      if (fetchError) throw fetchError
-      if (data.profile_id !== profile.id) {
-        setError("You are not authorized to delete this feedback")
-        return
-      }
-
-      console.log('Data from delete', data)
-
-      const { error } = await supabase
-        .from('feedbacks')
-        .delete()
-        .eq('id', feedbackId)
-      if (error) {
-        throw error
-      }
-      setFeedbacks((prevFeedbacks) => prevFeedbacks?.filter((feedback) => feedback.id !== feedbackId) || null)
-    } catch (error) {
-      console.error("Error deleting feedback:", error)
-      setError("Failed to delete feedback")
-      toast.error("Failed to delete feedback")
-    } finally {
-      setLoading(false)
-    }
-  }
-  const handleEdit = async (feedbackId: string, updatedFeedback: any) => {
-    setLoading(true)
-    setError(null)
-    try {
-      const { error } = await supabase
-        .from('feedbacks')
-        .update(updatedFeedback)
-        .eq('id', feedbackId)
-      if (error) {
-        throw error
-      }
-      setFeedbacks((prevFeedbacks) => {
-        if (!prevFeedbacks) return null
-        return prevFeedbacks.map((feedback) => {
-          if (feedback.id === feedbackId) {
-            return { ...feedback, ...updatedFeedback }
-          }
-          return feedback
-        })
-      })
-    } catch (error) {
-      console.error("Error updating feedback:", error)
-      setError("Failed to update feedback")
-    } finally {
-      setLoading(false)
-    }
-  }
   const handleClose = () => {
     setSelectedFeedback(null)
   }
@@ -181,7 +81,7 @@ export default function FeedbacksPage() {
                     <User size={16} className="mr-1" />
                   )}
                   <span>
-                    {feedback.is_anonymous ? "Anonymous" : feedback.profiles.first_name + " " + feedback.profiles.last_name}
+                    {feedback.is_anonymous ? "Anonymous" : feedback.profiles!.first_name + " " + feedback.profiles!.last_name}
                   </span>
                 </div>
                 {feedback.recommendation && (
@@ -264,7 +164,7 @@ export default function FeedbacksPage() {
                    {/* Show delete button only for the user's own feedback */}
                   {profile && profile.id === selectedFeedback.profile_id && (
                     <button
-                      onClick={() => handleDeleteFeedback(selectedFeedback.id)}
+                      onClick={() => deleteFeedback(selectedFeedback.id)}
                       className="text-red-500 hover:text-red-700 ml-2"
                       aria-label="Delete feedback"
                     >
