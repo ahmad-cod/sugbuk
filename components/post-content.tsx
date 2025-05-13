@@ -1,7 +1,8 @@
+"use client"
 import { getReadTime } from "@/app/post/utils";
+import { useProfile } from "@/contexts/ProfileContext";
 import { formatDistanceToNow } from "date-fns";
 import { BookOpen } from "lucide-react";
-import Image from "next/image";
 
 interface PostContentProps {
   title: string;
@@ -14,7 +15,7 @@ interface PostContentProps {
 
 
 export default function PostPage( { data } :  { data : PostContentProps } ) {
-  console.log('data', data)
+  const { profile } = useProfile()
   const { title, tags, cover_image, created_at, content, } = data;
 
   return (
@@ -51,11 +52,26 @@ export default function PostPage( { data } :  { data : PostContentProps } ) {
  
       {/* if a user is not authenticated, call to action to login or register to post comments*/}
 
+ { profile ? (
+      <div className="flex items-center justify-between my-4">
+        <div className="flex items-center space-x-2">
+          <img
+            src={profile?.avatar_url || "/dev-avatar.jpg"}
+            alt="User Avatar"
+            className="w-10 h-10 rounded-full"
+          />
+          <span>{profile?.first_name} {profile?.last_name}</span>
+        </div>
+        <button className="px-4 py-2 bg-blue-500 text-white rounded-md">Post Comment</button>
+      </div>
+ ) : (
+
       <div className="flex flex-col items-center justify-center my-8">
         <h2 className="text-lg font-semibold">Join the Conversation</h2>
         <p className="text-gray-600">Login or Register to post comments</p>
         <div className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">Login / Register</div>
       </div>
+ )}
     </section>
   );
 }
