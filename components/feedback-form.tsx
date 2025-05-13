@@ -9,10 +9,12 @@ import { useProfile } from "@/contexts/ProfileContext";
 import { createClient } from "@/utils/supabase/client";
 import { Sparkles, Info } from "lucide-react";
 import { motion } from "motion/react";
+import { useSupabase } from "@/hooks/useSupabase";
 
 export default function FeedbackForm() {
   const [isAnonymous, setIsAnonymous] = useState(false);
   const { profile } = useProfile();
+  const { insertFeedback } = useSupabase();
   const [formData, setFormData] = useState<FeedbackFormData>({
     category: "",
     subject: "",
@@ -281,7 +283,7 @@ export default function FeedbackForm() {
           className="block w-full p-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
           required
           // placeholder="Brief title of your feedback"
-          placeholder="Give your feedback a catchy title"
+          placeholder="Brief title of your feedback"
         />
         {/* <Input 
           type="text"
@@ -311,7 +313,7 @@ export default function FeedbackForm() {
           className="block w-full p-3 text-base border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
           required
           // placeholder="Explain your concern, feedback, or suggestion in detail..."
-          placeholder="Spill the tea! Tell us what's on your mind..."
+          placeholder="Please share your feedback or concerns in detail..."
         ></textarea>
       </div>
 
@@ -353,7 +355,7 @@ export default function FeedbackForm() {
           htmlFor="image"
           className="block font-medium mb-2 text-[14px]"
         >
-          Upload Images (optional)
+          Upload Relevant Images (optional)
         </label>
         <ImageUpload onUpload={handleImageUpload} />
       </div>
@@ -363,6 +365,7 @@ export default function FeedbackForm() {
           id="privacy"
           name="privacy"
           type="checkbox"
+          defaultChecked
           className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
           required
         />
@@ -381,7 +384,6 @@ export default function FeedbackForm() {
           variant="primary"
           size="lg"
           disabled={isSubmitting}
-          // className="w-full"
         >
           {isSubmitting ? "Submitting..." : "Submit Feedback"}
         </Button>
