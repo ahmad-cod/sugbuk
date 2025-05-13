@@ -63,6 +63,6 @@ export interface PostFormData {
   content: string[];
   tags: string[];
   cover_image?: string;
-  status: 'draft' | 'published';
+  is_published: boolean;
   author_id: string;
 }

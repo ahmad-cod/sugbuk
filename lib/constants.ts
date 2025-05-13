@@ -24,3 +24,5 @@ export const categories = [
   "Student Activities",
   "Other",
 ];
+
+// 148cb1 ===> color blue for sug logo, svgtrace
