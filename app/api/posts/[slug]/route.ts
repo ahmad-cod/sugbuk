@@ -1,9 +1,12 @@
 import { createClient } from '@/utils/supabase/client'
 import { NextResponse } from 'next/server'
 
-export async function GET(_: Request, { params }: { params: { slug: string } }) {
+import { NextRequest } from 'next/server'
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url)
+  const slug = searchParams.get('slug')
   const supabase = createClient()
-  const { slug } = params
 
   const { data, error } = await supabase
     .from('posts')
