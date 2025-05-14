@@ -1,11 +1,18 @@
 import { createClient } from '@/utils/supabase/client'
 import { NextResponse } from 'next/server'
 
-import { NextRequest } from 'next/server'
+export async function GET(_: Request, { params }: { params: { slug: string } }) {
+  const { slug } = params
+  if (!slug) {
+    return NextResponse.json({ error: 'Slug is required' }, { status: 400 })
+  }
+  // Check if slug is valid
+  const slugRegex = /^[a-zA-Z0-9-]+$/
+  if (!slugRegex.test(slug)) {
+    return NextResponse.json({ error: 'Invalid slug' }, { status: 400 })
+  }
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url)
-  const slug = searchParams.get('slug')
+  console.log('slug', slug)
   const supabase = createClient()
 
   const { data, error } = await supabase
