@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/client'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(_: Request, { params }: { params: { slug: string } }) {
+export async function GET(request: NextRequest, { params }: { params: { slug: string } }) {
   const { slug } = params
   if (!slug) {
     return NextResponse.json({ error: 'Slug is required' }, { status: 400 })
