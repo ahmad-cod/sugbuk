@@ -18,6 +18,11 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: {
+        'students': "url('/campus_group.jpeg')",
+        'hero': "url('/buk_new_site_central_masjid.jpg')",
+        'nacoss-nem': "url('/nacoss_nem.webp')",
+      },
       fontFamily: {
         heading: ["var(--font-poppins)", "sans-serif"],
         body: ["var(--font-roboto)", "sans-serif"],

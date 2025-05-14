@@ -1,11 +1,27 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
 import Button from './ui/btn'
 import { HERO_TEXT } from '../constants/texts'
 import Image from 'next/image'
 
+const bgImages = [
+  'bg-hero',
+  'bg-nacoss-nem',
+  'bg-students'
+]
+
 const Hero: React.FC = () => {
+  const [currentBgIndex, setCurrentBgIndex] = useState(0)
+  // effect to change background image every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBgIndex((prevIndex) => (prevIndex + 1) % bgImages.length)
+    }, 4000)
+
+    return () => clearInterval(interval)
+  }, [])
   return (
-    <section className="w-full bg-gradient-to-r from-[#005EB8] to-blue-500 text-white p-4 sm:px-20">
+    <section className={`w-full ${bgImages[currentBgIndex]} bg-no-repeat bg-cover text-white p-4 sm:px-20`}>
         <div className="container max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8 md:py-24">
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2 space-y-6">
@@ -21,10 +37,10 @@ const Hero: React.FC = () => {
                 </Button>
               </div>
             </div>
-            <div className="w-full md:w-1/2 rounded-lg shadow-xl bg-white p-2 mt-8 md:mt-0">
+            {/* <div className="w-full md:w-1/2 rounded-lg shadow-xl bg-white p-2 mt-8 md:mt-0">
               <div className="bg-gray-200 w-full h-64 md:h-80 rounded relative">
                 {/* Placeholder for hero image */}
-                <div className="absolute inset-0 flex items-center justify-center text-gray-500">
+                {/* <div className="absolute inset-0 flex items-center justify-center text-gray-500">
                   <Image
                     src={HERO_TEXT.image}
                     alt={HERO_TEXT.imageAlt}
@@ -32,9 +48,9 @@ const Hero: React.FC = () => {
                     style={{ objectFit: 'cover' }}
                     className="rounded-lg"
                   />
-                </div>
-              </div>
-            </div>
+                </div> */}
+              {/* </div> */}
+            {/* </div>  */}
           </div>
         </div>
       </section>
