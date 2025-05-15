@@ -1,5 +1,6 @@
 'use client';
 
+import { useCloudinaryUpload } from '@/hooks/useCloudinaryUpload';
 import { useState, ChangeEvent } from 'react';
 
 interface ImageUploadProps {
@@ -7,42 +8,21 @@ interface ImageUploadProps {
 }
 
 export default function ImageUpload({ onUpload }: ImageUploadProps) {
-  const [uploading, setUploading] = useState<boolean>(false);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const { uploading, progress, error, uploadMultipleImages } = useCloudinaryUpload();
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    setUploading(true);
     const files = event.target.files;
-    const uploadedUrls: string[] = [];
 
-    if (!files) return;
-
-    for (const file of Array.from(files)) {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!);
-
+    if (!files || files.length === 0) return;
+    
       try {
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-          {
-            method: 'POST',
-            body: formData,
-          }
-        );
-        
-        const data: { secure_url: string } = await response.json();
-        if (data.secure_url) {
-          uploadedUrls.push(data.secure_url);
-        }
+        const urls = await uploadMultipleImages(Array.from(files));
+        setImageUrls(prev => [...prev, ...urls]);
+        onUpload(urls);
       } catch (error) {
         console.error('Upload failed:', error instanceof Error ? error.message : 'Unknown error');
       }
-    }
-
-    setImageUrls(prev => [...prev, ...uploadedUrls]);
-    onUpload(uploadedUrls);
-    setUploading(false);
   };
 
   return (
@@ -55,17 +35,22 @@ export default function ImageUpload({ onUpload }: ImageUploadProps) {
         onChange={handleUpload}
         disabled={uploading}
       />
-      {uploading && <p>Uploading...</p>}
+      {uploading && (
+        <div>
+          <p>Uploading: {progress.toFixed(0)}%</p>
+          <div className="progress-bar" style={{ width: `${progress}%` }} />
+        </div>
+      )}
       {imageUrls.length > 0 && (
         <div>
           <h3>Uploaded Images:</h3>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="flex gap-4">
             {imageUrls.map((url, index) => (
               <img 
                 key={index} 
                 src={url} 
                 alt={`Uploaded ${index + 1}`} 
-                width={100}
+                width={200}
                 className="object-cover rounded"
               />
             ))}
