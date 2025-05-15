@@ -5,9 +5,9 @@ import { HERO_TEXT } from '../constants/texts'
 import Image from 'next/image'
 
 const bgImages = [
-  'bg-hero',
+  'bg-sug-group',
   'bg-nacoss-nem',
-  'bg-students'
+  'bg-hero',
 ]
 
 const Hero: React.FC = () => {
@@ -21,14 +21,14 @@ const Hero: React.FC = () => {
     return () => clearInterval(interval)
   }, [])
   return (
-    <section className={`w-full ${bgImages[currentBgIndex]} bg-no-repeat bg-cover text-white p-4 sm:px-20`}>
-        <div className="container max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8 md:py-24">
+    <section className={`w-full ${bgImages[currentBgIndex]} bg-no-repeat bg-cover text-white`}>
+        <div className="max-w-screen-2xl bg-gray-900 opacity-70 mx-auto px-4 py-16 sm:px-20 lg:px-24 md:py-24 lg:py-32">
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2 space-y-6">
               <h1 className="font-heading text-4xl md:text-5xl font-bold leading-tight">
                 {HERO_TEXT.title}
               </h1>
-              <p className="text-lg md:text-xl text-gray-200">
+              <p className="text-lg md:text-xl text-gray-200 font-[500]">
                 {HERO_TEXT.description}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">

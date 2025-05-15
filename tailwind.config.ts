@@ -20,6 +20,7 @@ const config = {
     extend: {
       backgroundImage: {
         'students': "url('/campus_group.jpeg')",
+        'sug-group': "url('/sug_group.jpg')",
         'hero': "url('/buk_new_site_central_masjid.jpg')",
         'nacoss-nem': "url('/nacoss_nem.webp')",
       },
