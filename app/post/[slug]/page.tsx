@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
 import PostContent from '@/components/post-content'
 
-// Simulate a fetch call from Supabase
 async function getPostBySlug(slug: string) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${slug}`, {
     next: { revalidate: 60 }, // ISR: revalidate every 60s
@@ -16,8 +15,14 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const posts = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/slugs`).then((res) => res.json())
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/slugs`)
  
+  if (!res.ok) {
+    console.error('Failed to fetch post slugs: ', await res.text())
+    return []
+  }
+
+  const posts = await res.json()
   return posts.map((post : any) => ({
     slug: post.slug,
   }))
