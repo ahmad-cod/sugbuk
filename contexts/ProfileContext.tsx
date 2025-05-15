@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/client"
 // user profile type
 export interface UserProfile {
   id: number;
+  user_id: string;
   first_name: string;
   last_name: string;
   avatar_url: string;
