@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import AvatarInitials from "./avatar-initials";
 
-type UserProfile = {
+type AvatarUserProfile = {
   // id: string;
   // email: string;
   first_name: string;
@@ -17,7 +17,7 @@ const AvatarMenu = ({
   profile,
   signOut,
 }: {
-  profile: UserProfile;
+  profile: AvatarUserProfile;
   signOut: () => void;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
