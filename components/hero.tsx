@@ -16,7 +16,7 @@ const Hero: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentBgIndex((prevIndex) => (prevIndex + 1) % bgImages.length)
-    }, 4000)
+    }, 5000)
 
     return () => clearInterval(interval)
   }, [])
@@ -37,20 +37,6 @@ const Hero: React.FC = () => {
                 </Button>
               </div>
             </div>
-            {/* <div className="w-full md:w-1/2 rounded-lg shadow-xl bg-white p-2 mt-8 md:mt-0">
-              <div className="bg-gray-200 w-full h-64 md:h-80 rounded relative">
-                {/* Placeholder for hero image */}
-                {/* <div className="absolute inset-0 flex items-center justify-center text-gray-500">
-                  <Image
-                    src={HERO_TEXT.image}
-                    alt={HERO_TEXT.imageAlt}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    className="rounded-lg"
-                  />
-                </div> */}
-              {/* </div> */}
-            {/* </div>  */}
           </div>
         </div>
       </section>

@@ -6,8 +6,6 @@ import Link from "next/link";
 import AvatarInitials from "./avatar-initials";
 
 type AvatarUserProfile = {
-  // id: string;
-  // email: string;
   first_name: string;
   last_name: string;
   avatar_url?: string;

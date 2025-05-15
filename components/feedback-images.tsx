@@ -6,7 +6,7 @@ interface FeedbackImagesProps {
   fullSize?: boolean;
 }
 
-const DEFAULT_IMAGE = "/buk-logo.png"; // Placeholder image
+const DEFAULT_IMAGE = "/buk-logo.png";
 
 export default function FeedbackImages({ images, maxDisplay, fullSize = false }: FeedbackImagesProps) {
   const displayImages = images.slice(0, maxDisplay);

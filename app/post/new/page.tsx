@@ -92,17 +92,6 @@ export default function CreatePostForm() {
     if (!file) return;
       
       
-      // // Simulate upload progress
-      // const interval = setInterval(() => {
-      //   setUploadProgress(prev => {
-      //     if (prev >= 100) {
-      //       clearInterval(interval);
-      //       return 100;
-      //     }
-      //     return prev + 10;
-      //   });
-      // }, 200);
-      
       // Read the file as data URL for preview
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -135,11 +124,8 @@ export default function CreatePostForm() {
   const handleContentImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Simulate uploading to Cloudinary
       const reader = new FileReader();
       reader.onload = (e) => {
-        // In a real implementation, we'd upload to Cloudinary and get a URL back
-        // For now, we'll use the data URL as a placeholder
         const imageUrl = e.target?.result as string;
         
         // Insert the image markdown at cursor position
@@ -276,10 +262,6 @@ export default function CreatePostForm() {
       alert('Please add at least one tag');
       return;
     }
-    // if (content.length < 100) {
-    //   alert('Content must be at least 100 characters long');
-    //   return;
-    // }
     if (content.length > 5000) {
       alert('Content must be less than 5000 characters long');
       return;

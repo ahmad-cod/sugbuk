@@ -117,110 +117,6 @@ export default function FeedbackForm() {
         </button>
       </div>
 
-      {/* Personal Info (Hidden if Anonymous) */}
-      {/* {!isAnonymous && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                required
-              />
-            </div>
-          </div>
-          <div>
-            <label
-              htmlFor="regNumber"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Registration Number
-            </label>
-            <input
-              type="text"
-              id="regNumber"
-              name="regNumber"
-              value={formData.regNumber}
-              onChange={handleChange}
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
-          </div>
-        </div>
-      )} */}
-
-      {/* Academic Info */}
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label
-            htmlFor="faculty"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Faculty
-          </label>
-          <select
-            id="faculty"
-            name="faculty"
-            value={formData.faculty}
-            onChange={handleChange}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            required
-          >
-            <option value="">Select Faculty</option>
-            {faculties.map((faculty) => (
-              <option key={faculty} value={faculty}>
-                {faculty}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label
-            htmlFor="department"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Department
-          </label>
-          <input
-            type="text"
-            id="department"
-            name="department"
-            value={formData.department}
-            onChange={handleChange}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            required
-          />
-        </div>
-      </div> */}
-
-      {/* Feedback Details */}
       <div className="mb-6">
         <label
           htmlFor="category"
@@ -262,16 +158,7 @@ export default function FeedbackForm() {
           required
           placeholder="Brief title of your feedback"
         />
-        {/* <Input 
-          type="text"
-          id="subject"
-          name="subject"
-          value={formData.subject}
-          onChange={handleChange}
-          className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          required
-          placeholder="Brief title of your feedback"
-        /> */}
+  {/* keep it short and concise.. e.g Issue with course registration */}
       </div>
 
       <div className="mb-6">
