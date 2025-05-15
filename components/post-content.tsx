@@ -3,6 +3,7 @@ import { getReadTime } from "@/app/post/utils";
 import { useProfile } from "@/contexts/ProfileContext";
 import { formatDistanceToNow } from "date-fns";
 import { BookOpen } from "lucide-react";
+import Image from "next/image";
 
 interface PostContentProps {
   title: string;
@@ -55,7 +56,9 @@ export default function PostPage( { data } :  { data : PostContentProps } ) {
  { profile ? (
       <div className="flex items-center justify-between my-4">
         <div className="flex items-center space-x-2">
-          <img
+          <Image
+            width={40}
+            height={40}
             src={profile?.avatar_url || "/dev-avatar.jpg"}
             alt="User Avatar"
             className="w-10 h-10 rounded-full"

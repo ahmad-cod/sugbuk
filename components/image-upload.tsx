@@ -1,6 +1,7 @@
 'use client';
 
 import { useCloudinaryUpload } from '@/hooks/useCloudinaryUpload';
+import Image from 'next/image';
 import { useState, ChangeEvent } from 'react';
 
 interface ImageUploadProps {
@@ -46,11 +47,12 @@ export default function ImageUpload({ onUpload }: ImageUploadProps) {
           <h3>Uploaded Images:</h3>
           <div className="flex gap-4">
             {imageUrls.map((url, index) => (
-              <img 
+              <Image 
                 key={index} 
                 src={url} 
                 alt={`Uploaded ${index + 1}`} 
                 width={200}
+                height={200}
                 className="object-cover rounded"
               />
             ))}
