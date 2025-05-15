@@ -1,6 +1,5 @@
 "use client"
 import { useState } from 'react'
-import { CldUploadButton, CldUploadWidget } from 'next-cloudinary'
 import { createClient } from "@/utils/supabase/client"
 import { useRouter } from 'next/navigation'
 import ImageUpload from '@/components/image-upload'
