@@ -15,7 +15,7 @@ const NavLink = ({ href, label, isActive, isMobile, onClick }: NavLinkProps) => 
       href={href}
       onClick={onClick}
       className={`relative px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ease-in-out ${
-        isMobile ? "w-full text-center py-4 text-base" : ""
+        isMobile ? "w-full py-4 text-base" : ""
       } ${
         isActive
           ? "text-indigo-600"

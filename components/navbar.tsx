@@ -156,9 +156,9 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="sm:hidden overflow-hidden"
+            className="absolute top-20 bg-white right-2 px-8 py-6 rounded-lg shadow-lg sm:hidden overflow-hidden"
           >
-            <div className="flex flex-col px-2 pt-2 pb-3 space-y-1">
+            <div className="grid place-content-center px-2 pt-2 pb-3 space-y-1">
               {Navlinks.map((link) => (
                 <NavLink
                   key={`mobile-${link.href}`}
@@ -171,7 +171,7 @@ export default function Navbar() {
               ))}
               
               {profile && (
-                <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="grid place-content-center mt-4 pt-4 border-t border-gray-200">
                   <div className="flex items-center px-3 py-2">
                     {profile.avatar_url ? (
                       <Image
@@ -192,13 +192,13 @@ export default function Navbar() {
                     </div>
                   </div>
                   
-                  <Link
+                  {/* <Link
                     href="/profile"
                     className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 transition-colors duration-150"
                     onClick={closeMenu}
                   >
                     Profile
-                  </Link>
+                  </Link> */}
                   
                   <button
                     onClick={() => {

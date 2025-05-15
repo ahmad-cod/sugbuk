@@ -28,7 +28,7 @@ const Hero: React.FC = () => {
               <h1 className="font-heading text-4xl md:text-5xl font-bold leading-tight">
                 {HERO_TEXT.title}
               </h1>
-              <p className="text-lg md:text-xl text-gray-200 font-[500]">
+              <p className="text-lg md:text-xl text-gray-200 font-medium">
                 {HERO_TEXT.description}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
