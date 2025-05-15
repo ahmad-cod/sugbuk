@@ -34,19 +34,19 @@ export interface FeedbackFormData {
   is_anonymous: boolean;
 }
 
-export interface UserProfile {
-  id: string;
-  user_id: string;
-  first_name: string;
-  last_name: string;
-  phone_number?: string;
-  is_student: boolean;
-  department?: string;
-  level?: string;
-  student_id?: string;
-  created_at: string;
-  updated_at: string;
-}
+// export interface UserProfile {
+//   id: string;
+//   user_id: string;
+//   first_name: string;
+//   last_name: string;
+//   phone_number?: string;
+//   is_student: boolean;
+//   department?: string;
+//   level?: string;
+//   student_id?: string;
+//   created_at: string;
+//   updated_at: string;
+// }
 
 export interface ProfileFormData {
   firstName: string;
