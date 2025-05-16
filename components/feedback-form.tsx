@@ -10,6 +10,7 @@ import { Sparkles, Info } from "lucide-react";
 import { motion } from "motion/react";
 import { useSupabase } from "@/hooks/useSupabase";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 export default function FeedbackForm() {
   const [isAnonymous, setIsAnonymous] = useState(false);
@@ -26,6 +27,10 @@ export default function FeedbackForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [tooltipVisible, setTooltipVisible] = useState("");
+
+  const loggedInUser = profile?.user_id;
+  const anonHead =  loggedInUser ? "Submit Anonymously" : "Submitting Anonymously";
+  const anonText = !loggedInUser ? "To get responses or track your feedback, consider logging in." : "Your identity will not be shared with representatives";
   
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -51,13 +56,19 @@ export default function FeedbackForm() {
       return;
     }
 
-    try {      
+    console.log("Form data before submission:", formData); 
+
+   const anonymous = !loggedInUser ? true : isAnonymous;
+
+    try {    
       const feedbackData = {
         ...formData,
-        is_anonymous: isAnonymous,
+        is_anonymous: anonymous,
         profile_id: profile?.id,
         user_id: profile?.user_id,
       };
+
+      console.log(feedbackData)
 
       const { error } = await insertFeedback(feedbackData);
 
@@ -95,12 +106,14 @@ export default function FeedbackForm() {
       {/* Anonymous Toggle */}
       <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
         <div>
-          <h3 className="text-base font-medium text-gray-900">Submit Anonymously</h3>
-          <p className="text-sm text-gray-500">
-            Your identity will not be shared with representatives
+          <h3 className="text-base font-heading font-medium text-gray-900">{anonHead}</h3>
+          <p className="font-body text-sm text-gray-500">
+            {anonText}
           </p>
         </div>
-        <button
+        {
+          loggedInUser ? (
+            <button
           type="button"
           className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none ${
             isAnonymous
@@ -115,6 +128,15 @@ export default function FeedbackForm() {
             }`}
           />
         </button>
+          ) : (
+            <Link
+              href="/sign-in"
+              className="font-body p-4 bg-blue-500 text-white hover:text-gray-300 rounded"
+            >Login
+              </Link>
+          )
+        }
+        
       </div>
 
       <div className="mb-6">
