@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { uploadImageToCloudinary, uploadMultipleImagesToCloudinary } from '../utils/cloudinary';
+import { uploadImageToCloudinary, uploadMultipleImagesToCloudinary, uploadVideoToCloudinary } from '../utils/cloudinary';
 
 interface UseCloudinaryUploadReturn {
   uploading: boolean;
@@ -9,6 +9,7 @@ interface UseCloudinaryUploadReturn {
   error: Error | null;
   uploadImage: (file: File) => Promise<string>;
   uploadMultipleImages: (files: File[]) => Promise<string[]>;
+  uploadMultipleVideos: (files: File[]) => Promise<string[]>;
 }
 
 /**
@@ -55,11 +56,22 @@ export const useCloudinaryUpload = (): UseCloudinaryUploadReturn => {
     }
   };
 
+  const uploadMultipleVideos = async (files: File[]) => {
+    setUploading(true);
+    try {
+      const urls = await Promise.all(files.map(file => uploadVideoToCloudinary(file)));
+      return urls;
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return {
     uploading,
     progress,
     error,
     uploadImage,
     uploadMultipleImages,
+    uploadMultipleVideos,
   };
 };

@@ -11,6 +11,7 @@ import { motion } from "motion/react";
 import { useSupabase } from "@/hooks/useSupabase";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import VideoUpload from "./video-upload";
 
 export default function FeedbackForm() {
   const [isAnonymous, setIsAnonymous] = useState(false);
@@ -22,6 +23,7 @@ export default function FeedbackForm() {
     message: "",
     recommendation: "",
     image_urls: [],
+    video_urls: [],
     is_anonymous: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,6 +48,13 @@ export default function FeedbackForm() {
     setFormData(prev => ({
       ...prev,
       image_urls: [...prev.image_urls!, ...urls]
+    }));
+  }
+
+  const handleVideoUpload = (urls: string[]) => {
+    setFormData(prev => ({
+      ...prev,
+      video_urls: [...prev.video_urls!, ...urls]
     }));
   }
 
@@ -241,6 +250,17 @@ export default function FeedbackForm() {
           Upload Relevant Images (optional)
         </label>
         <ImageUpload onUpload={handleImageUpload} />
+      </div>
+
+      {/* Video Upload */}
+      <div className="mb-6">
+        <label
+          htmlFor="video"
+          className="block font-medium mb-2 text-[14px]"
+        >
+          Upload Relevant Videos (optional)
+        </label>
+        <VideoUpload onUpload={handleVideoUpload} />
       </div>
 
       <div className="flex items-center">

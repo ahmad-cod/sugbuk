@@ -31,6 +31,7 @@ export interface FeedbackFormData {
   message: string;
   recommendation?: string;
   image_urls?: string[];
+  video_urls?: string[];
   is_anonymous: boolean;
 }
 
