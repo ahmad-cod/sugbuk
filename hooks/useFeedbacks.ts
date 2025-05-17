@@ -31,6 +31,7 @@ export function useFeedbacks() {
             avatar_url
           )
         `)
+        .eq('is_private', false)
         .order('created_at', { ascending: false });
 
       if (error) throw error;

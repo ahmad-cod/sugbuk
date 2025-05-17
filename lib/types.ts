@@ -33,6 +33,7 @@ export interface FeedbackFormData {
   image_urls?: string[];
   video_urls?: string[];
   is_anonymous: boolean;
+  is_private: boolean;
 }
 
 // export interface UserProfile {

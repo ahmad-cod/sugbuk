@@ -25,6 +25,7 @@ export default function FeedbackForm() {
     image_urls: [],
     video_urls: [],
     is_anonymous: false,
+    is_private: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -92,6 +93,7 @@ export default function FeedbackForm() {
         recommendation: "",
         image_urls: [],
         is_anonymous: false,
+        is_private: false,
       });
     } catch (error) {
       console.error("Error submitting feedback:", error);
@@ -147,6 +149,35 @@ export default function FeedbackForm() {
         }
         
       </div>
+
+        <div className="flex items-center space-x-3 pl-2">
+            <label 
+              htmlFor="is_private" 
+              className="flex items-center text-[14px]">
+              Keep this feedback private
+              <span
+                className="ml-1 text-gray-400 cursor-pointer"
+                title="If checked, your feedback won't be shown publicly, even if you're not anonymous."
+              >
+                ⓘ
+              </span>
+            </label>
+          <input
+            id="is_private"
+            name="is_private"
+            type="checkbox"
+            checked={formData.is_private}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                is_private: e.target.checked,
+              }))
+            }
+            className="h-4 w-4 rounded border-blue-500 checked:text-blue-600"
+          />
+
+        </div>
+
 
       <div className="mb-6">
         <label

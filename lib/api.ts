@@ -10,8 +10,9 @@ export async function fetchFeedbacks() {
             first_name,
             last_name,
             avatar_url
-          )
+            )
         `)
+        .eq('is_private', false)
         .order('created_at', { ascending: false });
     // .limit(3)
 
