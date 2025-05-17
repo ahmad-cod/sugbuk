@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -28,6 +28,20 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { profile, isLoading, logout } = useProfile();
   const [loadingError, setLoadingError] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  // if outside of the navbar is clicked in mobile view, close the menu
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [navRef]);
 
   useEffect(() => {
     if (isLoading) {
@@ -156,6 +170,7 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
+            ref={navRef}
             className="absolute top-20 bg-white right-2 px-8 py-6 rounded-lg shadow-lg sm:hidden overflow-hidden"
           >
             <div className="grid place-content-center px-2 pt-2 pb-3 space-y-1">
