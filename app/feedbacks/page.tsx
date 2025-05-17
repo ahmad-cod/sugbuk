@@ -71,6 +71,32 @@ export default function FeedbacksPage() {
                   <FeedbackImages images={feedback.image_urls} maxDisplay={2} />
                 </div>
               )}
+
+               {/* Video Preview */}
+               {feedback.video_urls && feedback.video_urls.length > 0 && (
+                  <div className="mb-4 flex flex-col gap-3">
+                    {feedback.video_urls.slice(0, 2).map((url, index) => {
+                      const extension = url.split('.').pop()?.toLowerCase();
+                      const mimeType = extension === 'webm'
+                        ? 'video/webm'
+                        : extension === 'ogg'
+                        ? 'video/ogg'
+                        : 'video/mp4';
+
+                      return (
+                        <video
+                          key={index}
+                          controls
+                          className="rounded-lg w-full max-h-64 object-cover"
+                        >
+                          <source src={url} type={mimeType} />
+                          Your browser does not support the video tag.
+                        </video>
+                      );
+                    })}
+                  </div>
+                )}
+
               
               {/* Footer */}
               <div className="flex items-center justify-between text-sm text-gray-500 mt-2">

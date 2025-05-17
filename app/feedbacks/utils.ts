@@ -8,6 +8,7 @@ export interface Feedback {
   recommendation?: string;
   image_urls?: string[];
   video_urls?: string[];
+  is_private: boolean;
   is_anonymous: boolean;
   created_at: string;
   profile_id: string;
