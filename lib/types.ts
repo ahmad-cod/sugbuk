@@ -68,3 +68,11 @@ export interface PostFormData {
   is_published: boolean;
   author_id: string;
 }
+
+export interface Comment {
+  id: string;
+  post_id: string;
+  user_id: string;
+  content: string;
+  created_at: string;
+}
