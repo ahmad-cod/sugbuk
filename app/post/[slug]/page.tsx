@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
 import PostContent from '@/components/post-content'
+// import CommentForm from '@/components/comments/comment-form'
+import CommentSection from '@/components/comments/comment-section'
 
 async function getPostBySlug(slug: string) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/${slug}`, {
@@ -38,6 +40,10 @@ export default async function PostPage({ params }: PageProps) {
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
       <PostContent data={post} />
+
+      <div className="mt-10">
+        <CommentSection  postId={post.id} />
+      </div>
     </div>
   )
 }

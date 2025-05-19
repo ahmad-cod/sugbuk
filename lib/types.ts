@@ -71,8 +71,19 @@ export interface PostFormData {
 
 export interface Comment {
   id: string;
-  post_id: string;
-  user_id: string;
   content: string;
+  post_id: number;
+  user_id: string;
+  profile_id: number;
+  is_edited: boolean;
+  parent_comment_id: string | null;
   created_at: string;
+  updated_at: string;
+  // Joined fields from users table
+  user?: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    avatar_url: string;
+  };
 }
