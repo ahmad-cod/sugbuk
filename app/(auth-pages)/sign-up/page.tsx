@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import Head from 'next/head';
 import { signUp } from '@/utils/auth';
 import toast from 'react-hot-toast';
+import { EyeClosedIcon, EyeIcon, EyeOff, LucideEye } from 'lucide-react';
 
 // Form input validation types
 type FormData = {
@@ -32,6 +33,8 @@ export default function SignUp() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const [showPasswordValue, setShowPasswordValue] = useState(false);
+  const [showConfirmPasswordValue, setShowConfirmPasswordValue] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -105,12 +108,12 @@ export default function SignUp() {
     try {
       // console.log('Submitting:', formData)
       
-      // await signUp({
-      //   email: formData.email,
-      //   password: formData.password,
-      // })
+      await signUp({
+        email: formData.email,
+        password: formData.password,
+      })
 
-      new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
+      // new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
 
       setFormData({
         email: '',
@@ -131,6 +134,15 @@ export default function SignUp() {
       setIsSubmitting(false);
     }
   };
+
+  const toggleShowValue = (value: boolean, name: 'password' | 'confirmPassword') => {
+    if (name === 'password') {
+      setShowPasswordValue(value)
+      console.log(formData.password)
+    } else {
+      setShowConfirmPasswordValue(value)
+    }
+  }
 
   return (
     <>
@@ -201,20 +213,21 @@ export default function SignUp() {
                 </div>
 
                 {/* Password Input */}
+                {/* add an eye toggle for toggling the type of the input to show password on click */}
                 <div className="space-y-2">
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                     Password
                   </label>
                   <motion.div
                     whileTap={{ scale: 0.995 }}
-                    className={`relative rounded-lg border ${
+                    className={`flex items-center relative rounded-lg border ${
                       errors.password ? 'border-red-300' : 'border-gray-300'
                     } focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-blue-600 overflow-hidden transition-all`}
                   >
                     <input
                       id="password"
                       name="password"
-                      type="password"
+                      type={showPasswordValue ? "text" : "password"}
                       autoComplete="new-password"
                       required
                       value={formData.password}
@@ -224,6 +237,13 @@ export default function SignUp() {
                       }`}
                       placeholder="Create a strong password"
                     />
+                    <div className="px-2">
+                      {
+                        showPasswordValue ? 
+                        <LucideEye onClick={() => toggleShowValue(false, 'password')} />
+                        : <EyeOff onClick={() => toggleShowValue(true, 'password')} />
+                      }
+                    </div>
                   </motion.div>
                   {errors.password && (
                     <motion.p 
@@ -275,14 +295,14 @@ export default function SignUp() {
                   </label>
                   <motion.div
                     whileTap={{ scale: 0.995 }}
-                    className={`relative rounded-lg border ${
+                    className={`flex items-center relative rounded-lg border ${
                       errors.confirmPassword ? 'border-red-300' : 'border-gray-300'
                     } focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-blue-600 overflow-hidden transition-all`}
                   >
                     <input
                       id="confirmPassword"
                       name="confirmPassword"
-                      type="password"
+                      type={showConfirmPasswordValue ? "text" : "password"}
                       autoComplete="new-password"
                       required
                       value={formData.confirmPassword}
@@ -292,6 +312,13 @@ export default function SignUp() {
                       }`}
                       placeholder="Confirm your password"
                     />
+                    <div className="px-2">
+                      {
+                        showConfirmPasswordValue ? 
+                        <LucideEye onClick={() => toggleShowValue(false, 'confirmPassword')} />
+                        : <EyeOff onClick={() => toggleShowValue(true, 'confirmPassword')} />
+                      }
+                    </div>
                   </motion.div>
                   {errors.confirmPassword && (
                     <motion.p 
@@ -373,7 +400,7 @@ export default function SignUp() {
                 transition={{ delay: 0.7, duration: 0.8 }}
               >
                 <Image 
-                  src="/student-group.svg" 
+                  src="/nacoss_nem.webp" 
                   alt="Student community" 
                   width={300} 
                   height={300}
