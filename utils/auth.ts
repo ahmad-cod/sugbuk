@@ -4,12 +4,12 @@ import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 // import { redirect } from "next/navigation";
 
-type SignInFormData = {
+type AuthFormData = {
   email: string;
   password: string;
 };
 
-export const signIn = async (formData: SignInFormData) => {
+export const signIn = async (formData: AuthFormData) => {
   const { email, password } = formData
   const supabase = await createClient();
 
@@ -25,7 +25,7 @@ export const signIn = async (formData: SignInFormData) => {
   // return redirect("/");
 };
 
-export const signUp = async (formData: SignInFormData) => {
+export const signUp = async (formData: AuthFormData) => {
   const { email, password } = formData;
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
@@ -46,14 +46,10 @@ export const signUp = async (formData: SignInFormData) => {
     },
   });
 
-  if (error) {
-    console.error(error.code + " " + error.message);
-    return encodedRedirect("error", "/sign-up", error.message);
-  } else {
-    return encodedRedirect(
-      "success",
-      "/sign-up",
-      "Thanks for signing up! Please check your email for a verification link.",
-    );
-  }
+ if (error) {
+  return { status: "error", message: error.message };
+}
+
+return { status: "success", message: "Thanks for signing up!" };
+
 };
