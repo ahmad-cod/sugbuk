@@ -4,10 +4,9 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import Head from 'next/head';
 import { signUp } from '@/utils/auth';
 import toast from 'react-hot-toast';
-import { EyeClosedIcon, EyeIcon, EyeOff, LucideEye } from 'lucide-react';
+import { EyeOff, LucideEye } from 'lucide-react';
 
 // Form input validation types
 type FormData = {
@@ -113,6 +112,7 @@ export default function SignUp() {
         password: formData.password,
       })
 
+
       // new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
 
       setFormData({
@@ -122,7 +122,7 @@ export default function SignUp() {
       });
       setPasswordStrength(0);
       setErrors({});
-      // use a toast notification
+      // send a toast notification
       toast.success("Thanks for signing up!\n\nKindly check your email for a verification link.");
     } catch (error) {
       console.error('Signup error:', error);
@@ -146,11 +146,6 @@ export default function SignUp() {
 
   return (
     <>
-      <Head>
-        <title>Sign Up | SUGBUK - Student Union BUK</title>
-        <meta name="description" content="Create your SUGBUK account" />
-      </Head>
-
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex flex-col mx-auto rounded-xl">
         {/* Header */}
 
@@ -213,7 +208,6 @@ export default function SignUp() {
                 </div>
 
                 {/* Password Input */}
-                {/* add an eye toggle for toggling the type of the input to show password on click */}
                 <div className="space-y-2">
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                     Password
