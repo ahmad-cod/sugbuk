@@ -2,10 +2,10 @@ import { Geist } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { Poppins, Roboto } from "next/font/google";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+import Footer from "@/components/layout/footer";
 import { ProfileProvider } from "@/contexts/ProfileContext";
 import type { Metadata } from "next";
+import Navbar from "@/components/layout/navbar";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
