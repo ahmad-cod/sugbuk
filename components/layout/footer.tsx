@@ -11,6 +11,7 @@ import Facebook from '../icons/facebook.svg'
 import X from '../icons/x.svg'
 import Instagram from '../icons/instagram.svg'
 import Tiktok from '../icons/tiktok.svg'
+import Image from 'next/image';
 
 
 const Footer: React.FC = () => {
@@ -31,7 +32,7 @@ const Footer: React.FC = () => {
     },
     {
       name: 'Facebook',
-      href: 'https://facebook.com/sugbuk',
+      href: 'https://facebook.com/sugbuk2025',
       icon: Facebook,
       color: 'hover:text-blue-600'
     },
@@ -65,11 +66,21 @@ const Footer: React.FC = () => {
           
           {/* Brand section */}
           <div className="text-center space-y-3">
-            <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent">
-              sugbuk
-            </h3>
-            <p className="text-slate-400 text-sm md:text-base max-w-md mx-auto leading-relaxed">
-              Bridging the communication gap between students and their union government
+            <div className="flex items-center justify-center">
+              <Link href="/" aria-label="SUGBUK Home" className="flex items-center">
+              <Image
+                src="/sug-logo.jpg"
+                alt="SUGBUK Logo"
+                width={300}
+                height={300}
+                className="h-32 w-auto rounded-xl"
+              />
+            </Link>
+            </div>
+            <p className="text-slate-400 text-sm md:text-base max-w-md mx-auto leading-relaxed italic">
+              <span className='font-bold text-xl text-slate-500 pr-1'>"</span>
+              We dare fight for our right
+              <span className='font-bold text-xl text-slate-500 pl-1'>"</span>
             </p>
           </div>
 
