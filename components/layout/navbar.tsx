@@ -29,11 +29,17 @@ export default function Navbar() {
   const { profile, isLoading, logout } = useProfile();
   const [loadingError, setLoadingError] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null)
   // if outside of the navbar is clicked in mobile view, close the menu
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+      if (
+        navRef.current && 
+        !navRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -77,9 +83,9 @@ export default function Navbar() {
                 <Image
                   src="/sug-logo.jpeg"
                   alt="SUGBUK Logo"
-                  width={60}
-                  height={60}
-                  className="h-12 w-auto"
+                  width={80}
+                  height={80}
+                  className="h-12 md:h-14 w-auto"
                 />
               </Link>
             </div>
@@ -118,7 +124,8 @@ export default function Navbar() {
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 focus:outline-none"
               aria-controls="mobile-menu"
               aria-expanded={isOpen}
-              onClick={() => setIsOpen(!isOpen)}
+              ref={buttonRef}
+              onClick={() => setIsOpen(prev => !prev)}
             >
               <span className="sr-only">
                 {isOpen ? "Close main menu" : "Open main menu"}
