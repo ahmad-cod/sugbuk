@@ -4,7 +4,7 @@ export const TEAM_MEMBERS = [
     name: "Abdullahi Usman Baba",
     position: "President",
     faculty: "Faculty of Engineering",
-    image: "/images/dev_avatar.jpg",
+    image: "/images/president.jpg",
     contact: "president@sugbuk.org"
   },
   {

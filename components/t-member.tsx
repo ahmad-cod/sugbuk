@@ -14,7 +14,7 @@ interface TMemberProps {
 export default function TMember({ member }: TMemberProps) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
-      <div className="h-48 bg-gray-100 relative overflow-hidden">
+      <div className="h-64 bg-gray-100 relative overflow-hidden">
         <Image
           src={member.image}
           alt={`${member.name} - ${member.position}`}
@@ -23,12 +23,12 @@ export default function TMember({ member }: TMemberProps) {
           className="object-cover"
         />
       </div>
-      <div className="p-5 text-center">
+      {/* <div className="p-5 text-center">
         <h3 className="text-lg font-semibold text-gray-900 mb-1">
           {member.name}
         </h3>
         <p className="text-blue-600 font-medium mb-2">{member.position}</p>
-        {/* <p className="text-gray-600 text-sm mb-3">{member.faculty}</p>
+        <p className="text-gray-600 text-sm mb-3">{member.faculty}</p>
         <a
           href={`mailto:${member.contact}`}
           className="text-blue-600 hover:text-blue-800 text-sm flex items-center justify-center group"
@@ -48,8 +48,8 @@ export default function TMember({ member }: TMemberProps) {
             />
           </svg>
           <span className="group-hover:underline">{member.contact}</span>
-        </a> */}
-      </div>
+        </a>
+      </div> */}
     </div>
   );
 }
