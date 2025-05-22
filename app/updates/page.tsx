@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Update } from '@/lib/types';
-import { getAllUpdates } from '@/lib/supabase/updates';
+// import { getAllUpdates } from '@/lib/supabase/updates';
 import UpdateCard from '@/components/update-card';
 import Link from 'next/link';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
@@ -15,8 +15,9 @@ export default function UpdatesPage() {
   
   useEffect(() => {
     async function fetchUpdates() {
-      const data = await getAllUpdates();
-      setUpdates(data);
+      // const data = await getAllUpdates();
+      // setUpdates(data);
+      setUpdates([])
       setLoading(false);
     }
 
