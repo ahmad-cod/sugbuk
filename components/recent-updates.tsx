@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getRecentUpdates } from '@/lib/supabase/updates';
+// import { getRecentUpdates } from '@/lib/supabase/updates';
 import UpdateCard from './update-card';
 import { Update } from '@/lib/types';
 
@@ -10,8 +10,9 @@ export default function RecentUpdates() {
 
   useEffect(() => {
     async function fetchUpdates() {
-      const data = await getRecentUpdates(3);
-      setUpdates(data);
+      // const data = await getRecentUpdates(3);
+      // setUpdates(data);
+      setUpdates([])
       setLoading(false);
     }
 
