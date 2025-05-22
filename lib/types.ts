@@ -79,7 +79,7 @@ export interface Comment {
   parent_comment_id: string | null;
   created_at: string;
   updated_at: string;
-  // Joined fields from users table
+  // Joined fields from profiles table
   user?: {
     id: string;
     first_name: string;
@@ -87,3 +87,15 @@ export interface Comment {
     avatar_url: string;
   };
 }
+
+export type Update = {
+  id: string;
+  title: string;
+  content: string;
+  imageUrl?: string;
+  createdAt: string;
+  authorId: string;
+  authorName: string;
+  authorAvatarUrl?: string;
+  tags?: string[];
+};
