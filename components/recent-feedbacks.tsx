@@ -1,6 +1,7 @@
 import { Feedback } from "@/app/feedbacks/utils";
 import { FeedbackCard } from "./feedback-card";
 import { fetchFeedbacks } from "@/lib/api";
+import SectionTitle from "./ui/section-title";
 
 
 export default async function RecentFeedbacks() {
@@ -9,7 +10,7 @@ export default async function RecentFeedbacks() {
 
   return (
     <div className="p-3 min-h-[400px] sm:p-6 lg:p-8 max-w-7xl mx-auto bg-[#F5F5F5]">
-        <h2 className="text-3xl font-bold">Recent Feedbacks</h2>
+        <SectionTitle title="Recent Feedbacks" />
         <div className="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3 transition-all duration-400 ease-in-out">
           {
           recentFeedbacks.map((feedback: Feedback) => (
