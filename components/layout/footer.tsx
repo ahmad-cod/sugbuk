@@ -1,8 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { 
-   
-  Linkedin, 
   Mail, 
   Heart,
   ExternalLink 
@@ -20,7 +18,7 @@ const Footer: React.FC = () => {
   const socialLinks = [
     {
       name: 'Instagram',
-      href: 'https://instagram.com/sugbuk',
+      href: 'https://instagram.com/sug_buk',
       icon: Instagram,
       color: 'hover:text-pink-500'
     },
@@ -38,13 +36,13 @@ const Footer: React.FC = () => {
     },
     {
       name: 'Tiktok',
-      href: 'https://linkedin.com/company/sugbuk',
+      href: 'https://linkedin.com/company/sug_buk',
       icon: Tiktok,
       color: 'hover:text-black'
     },
     {
       name: 'Email',
-      href: 'mailto:contact@sugbuk.com',
+      href: 'mailto:contact@sugbukbulletin@gmail.com',
       icon: Mail,
       color: 'hover:text-emerald-400'
     }
@@ -97,7 +95,7 @@ const Footer: React.FC = () => {
                   className={`group p-3 rounded-full bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-slate-700/50 hover:border-slate-600 ${social.color}`}
                   aria-label={`Follow sugbuk on ${social.name}`}
                 >
-                  <IconComponent className="w-5 h-5 text-slate-400 group-hover:text-current transition-colors duration-300" />
+                  <IconComponent className="w-5 h-5 text-slate-300 group-hover:text-current transition-colors duration-300" />
                 </Link>
               );
             })}
@@ -159,10 +157,10 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Fun tagline */}
+          {/* Fun tagline
           <div className="text-xs text-slate-600 text-center italic">
             "Your voice, our mission 🚀"
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>
