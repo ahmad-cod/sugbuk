@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import TMember from "./t-member";
+import { CarouselDisplay } from "./carousel/carousel";
+import SectionTitle from "./ui/section-title";
 
 interface TeamMemberType {
   id: number;
@@ -57,17 +59,15 @@ export default function MeetTheTeam({ members }: MeetTheTeamProps) {
   return (
     <div className="w-full py-12 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-12 pl-6">
-          Meet Our Team
-        </h2>
+        <SectionTitle title="Principal Officers" />
         
-        <div 
+        {/* <div 
           className="relative overflow-hidden mx-auto max-w-7xl"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-        >
+        > */}
           {/* Left navigation arrow */}
-          <button 
+          {/* <button 
             onClick={goToPrevSlide}
             className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all duration-300 hover:scale-110"
             aria-label="Previous slide"
@@ -75,10 +75,10 @@ export default function MeetTheTeam({ members }: MeetTheTeamProps) {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-          </button>
+          </button> */}
           
           {/* Right navigation arrow */}
-          <button 
+          {/* <button 
             onClick={goToNextSlide}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all duration-300 hover:scale-110"
             aria-label="Next slide"
@@ -86,7 +86,7 @@ export default function MeetTheTeam({ members }: MeetTheTeamProps) {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </button>
+          </button> */}
           
           <div 
             ref={sliderRef}
@@ -96,7 +96,7 @@ export default function MeetTheTeam({ members }: MeetTheTeamProps) {
             {Array.from({ length: totalSlides }).map((_, slideIndex) => (
               <div 
                 key={slideIndex} 
-                className="min-w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-8"
+                className="min-w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-10 py-4"
               >
                 {members
                   .slice(slideIndex * 4, (slideIndex + 1) * 4)
@@ -108,7 +108,7 @@ export default function MeetTheTeam({ members }: MeetTheTeamProps) {
           </div>
           
           {/* Navigation dots */}
-          <div className="flex justify-center mt-8 space-x-3">
+          {/* <div className="flex justify-center mt-8 space-x-3">
             {Array.from({ length: totalSlides }).map((_, index) => (
               <button
                 key={index}
@@ -122,7 +122,13 @@ export default function MeetTheTeam({ members }: MeetTheTeamProps) {
               />
             ))}
           </div>
-        </div>
+        </div> */}
+
+        {/* <CarouselDisplay>
+          {members.map((member, index) => {
+            return <TMember key={index} member={member} />
+          })}
+        </CarouselDisplay> */}
       </div>
     </div>
   );
