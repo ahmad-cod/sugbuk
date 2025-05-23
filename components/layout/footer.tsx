@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
     },
     {
       name: 'Facebook',
-      href: 'https://facebook.com/sugbuk2025',
+      href: 'https://web.facebook.com/603593109499975',
       icon: Facebook,
       color: 'hover:text-blue-600'
     },
