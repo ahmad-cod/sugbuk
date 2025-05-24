@@ -9,7 +9,7 @@ export default function Home() {
     <section className="flex flex-col gap-20">
       <Hero />
       <RecentFeedbacks />
-      <MeetTheTeam members={TEAM_MEMBERS} />
+      {/* <MeetTheTeam members={TEAM_MEMBERS} /> */}
       <CTA />
     </section>
   );
