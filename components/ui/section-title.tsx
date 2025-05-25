@@ -4,6 +4,6 @@ interface PageProps {
 
 export default function SectionTitle ({ title }: PageProps) {
   return (
-    <h2 className="text-3xl font-semibold mb-8 text-center md:text-left">{title}</h2>
+    <h2 className="text-2xl font-semibold my-6 text-center md:text-left">{title}</h2>
   )
 }
