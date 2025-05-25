@@ -3,7 +3,7 @@ import { updateSession } from "@/utils/supabase/middleware";
 import { createClient } from "./utils/supabase/server";
 
 // 1. Specify Protected and Public Routes
-const protectedRoutes = ['/feedbacks', '/create-profile', '/profile'];
+const protectedRoutes = ['/reports', '/dashboard', '/create-profile', '/profile'];
 const publicRoutes = ['/sign-in', '/sign-up', '/'];
 
 export async function middleware(request: NextRequest) {
@@ -35,6 +35,14 @@ export async function middleware(request: NextRequest) {
     // Skip profile check for API routes and certain paths
     if (path.startsWith('/api/') || path === '/auth/callback') {
       return response;
+    }
+
+    // admin only, can access dashboard
+    if (path.startsWith('/dashboard')) {
+      const isAdmin = user.user_metadata.role === 'admin'
+      if (!isAdmin) {
+        return NextResponse.redirect(new URL('/', request.url))
+      }
     }
     
     // Check if the user has completed their profile
