@@ -146,7 +146,7 @@ const Footer: React.FC = () => {
               <Heart className="w-4 h-4 text-red-400 animate-pulse" />
               <span>by</span>
               <Link
-                href="https://github.com/ahmad-cod"
+                href="https://wa.link/qxh24l"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium text-sky-400 hover:text-sky-300 transition-colors duration-300 flex items-center space-x-1 group-hover:underline underline-offset-4"
