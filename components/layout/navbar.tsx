@@ -10,6 +10,7 @@ import { useProfile } from "@/contexts/ProfileContext";
 import NavLink from "./nav-link";
 import AvatarMenu from "./avatar-menu";
 import AvatarInitials from "./avatar-initials";
+import { useAuth } from "@/contexts/AuthProvider";
 
 // NavLinks based on authentication state
 const authenticatedLinks = [
@@ -26,12 +27,13 @@ const unauthenticatedLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { session, loading } = useAuth()
   const { profile, isLoading, logout } = useProfile();
   const [loadingError, setLoadingError] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null)
-  // if outside of the navbar is clicked in mobile view, close the menu
 
+  // if outside of the navbar is clicked in mobile view, close the menu
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -49,13 +51,13 @@ export default function Navbar() {
     };
   }, [navRef]);
 
-  useEffect(() => {
-    if (isLoading) {
-      const timeout = setTimeout(() => setLoadingError(true), 10000); // 10 seconds timeout
-      return () => clearTimeout(timeout);
-    }
-    setLoadingError(false);
-  }, [isLoading]);
+  // useEffect(() => {
+  //   if (isLoading) {
+  //     const timeout = setTimeout(() => setLoadingError(true), 10000); // 10 seconds timeout
+  //     return () => clearTimeout(timeout);
+  //   }
+  //   setLoadingError(false);
+  // }, [isLoading]);
   const pathname = usePathname();
   const router = useRouter();
 
