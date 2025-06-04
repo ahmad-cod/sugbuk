@@ -31,13 +31,13 @@ export default function DashboardPage() {
       setIsAdmin(true)
 
       const [reportsRes, postsRes, resolutionsRes] = await Promise.all([
-        supabase.from('reports').select('id, current_status'),
+        supabase.from('reports').select('id, status'),
         supabase.from('posts').select('id'),
         supabase.from('feedbacks').select('id'),
       ])
 
       const allReports = reportsRes.data || []
-      const unresolved = allReports.filter((r) => r.current_status !== 'resolved')
+      const unresolved = allReports.filter((r) => r.status !== 'resolved')
 
       setStats({
         totalReports: allReports.length,
