@@ -5,8 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Head from 'next/head';
-import { signIn } from '@/utils/auth';
+// import { signIn } from '@/utils/auth';
 import { useProfile } from '@/contexts/ProfileContext';
+import { createClient } from '@/utils/supabase/client';
 
 // Form input validation types
 type FormData = {
@@ -22,6 +23,7 @@ type FormErrors = {
 
 export default function SignIn() {
   const router = useRouter();
+  const supabase = createClient()
   const emailInputRef = useRef<HTMLInputElement>(null);
   const { refreshProfile, profile } = useProfile();
   const [formData, setFormData] = useState<FormData>({
@@ -74,13 +76,14 @@ export default function SignIn() {
     setIsSubmitting(true);
     
     try {
-      console.log('Submitting:', formData);
 
-      await signIn(formData)
+      // await signIn(formData)
+      const { data, error } = await supabase.auth.signInWithPassword(formData)
       await refreshProfile() // Refresh user profile after login
 
       // Redirect after successful login
-      router.push('/')
+      const role = data.user?.user_metadata?.role
+      router.replace(role === 'admin' ? '/dashboard' : '/')
     } catch (error) {
       console.error('Login error:', error);
       setErrors({ 
