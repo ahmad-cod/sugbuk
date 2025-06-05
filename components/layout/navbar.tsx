@@ -18,6 +18,11 @@ const authenticatedLinks = [
   { href: "/feedbacks", label: "Feedbacks" },
 ];
 
+const adminLinks = [
+  { href: "/feedbacks", label: "Feedbacks" },
+  { href: "/post/new", label: "Add Update" }
+]
+
 const unauthenticatedLinks = [
   { href: "/sign-in", label: "Sign In" },
   { href: "/talk-to-rep", label: "Share a Feedback" },
@@ -72,7 +77,7 @@ export default function Navbar() {
 
   const closeMenu = () => setIsOpen(false);
 
-  const Navlinks = profile ? authenticatedLinks : unauthenticatedLinks;
+  const Navlinks = profile?.role === "admin" ? adminLinks : profile ? authenticatedLinks : unauthenticatedLinks;
 
   return (
     <nav className="bg-white text-[#333333] shadow-md sticky top-0 z-40">
