@@ -9,6 +9,7 @@ import MDEditor from '@uiw/react-md-editor';
 import { PostFormData } from '@/lib/types';
 import { useProfile } from '@/contexts/ProfileContext';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export default function CreatePostForm() {
   const { uploadImage, uploading, progress, error } = useCloudinaryUpload();
@@ -28,6 +29,7 @@ export default function CreatePostForm() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverImageInputRef = useRef<HTMLInputElement>(null);
   const { profile } = useProfile();
+  const router = useRouter()
   
   useEffect(() => {
     const checkIfMobile = () => {
@@ -311,7 +313,10 @@ export default function CreatePostForm() {
         {/* Header with Back Button and Tab Navigation */}
         <header className="sticky top-0 z-10 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+            <button
+              className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+              onClick={() => router.back()}
+            >
               <ArrowLeft size={20} />
             </button>
             <div className="hidden md:flex space-x-4">
