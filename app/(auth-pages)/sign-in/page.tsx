@@ -77,8 +77,18 @@ export default function SignIn() {
     
     try {
 
-      // await signIn(formData)
       const { data, error } = await supabase.auth.signInWithPassword(formData)
+
+      if (error) {
+        console.error('Sign in error:', error);
+        setErrors({ 
+          ...errors, 
+          password: "Invalid email or password" 
+        });
+        return;
+      }
+
+      
       await refreshProfile() // Refresh user profile after login
 
       // Redirect after successful login
