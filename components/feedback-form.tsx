@@ -33,7 +33,7 @@ export default function FeedbackForm() {
 
   const loggedInUser = profile?.user_id;
   const anonHead =  loggedInUser ? "Submit Anonymously" : "Submitting Anonymously";
-  const anonText = !loggedInUser ? "To get responses or track your feedback, consider logging in." : "Your identity will not be shared with representatives";
+  const anonText = !loggedInUser ? "To get responses or track your report, consider logging in." : "Your identity will not be shared with representatives";
   
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -96,8 +96,8 @@ export default function FeedbackForm() {
         is_private: false,
       });
     } catch (error) {
-      console.error("Error submitting feedback:", error);
-      toast.error("Failed to submit feedback. Please try again.");
+      console.error("Error submitting report:", error);
+      toast.error("Failed to submit report. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -154,10 +154,10 @@ export default function FeedbackForm() {
             <label 
               htmlFor="is_private" 
               className="flex items-center text-[14px]">
-              Keep this feedback private
+              Keep this report private
               <span
                 className="ml-1 text-gray-400 cursor-pointer"
-                title="If checked, your feedback won't be shown publicly, even if you're not anonymous."
+                title="If checked, your report won't be shown publicly, even if you're not anonymous."
               >
                 ⓘ
               </span>
@@ -218,7 +218,7 @@ export default function FeedbackForm() {
           onChange={handleChange}
           className="block w-full p-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
           required
-          placeholder="Brief title of your feedback"
+          placeholder="Brief title of your report"
         />
   {/* keep it short and concise.. e.g Issue with course registration */}
       </div>
@@ -238,7 +238,7 @@ export default function FeedbackForm() {
           onChange={handleChange}
           className="block w-full p-3 text-base border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
           required
-          placeholder="Please share your feedback or concerns in detail..."
+          placeholder="Please share your report or concerns in detail..."
         ></textarea>
       </div>
 
@@ -344,7 +344,7 @@ export default function FeedbackForm() {
               Submitting...
             </span>
           ) : (
-            "Submit Feedback"
+            "Submit report"
           )}
         </Button>
       </div>
@@ -376,17 +376,17 @@ function FeedbackSuccessMessage({
           />
         </svg>
       </div>
-      <h3 className="text-lg font-medium text-gray-900 mb-2">Thank you for your feedback!</h3>
+      <h3 className="text-lg font-medium text-gray-900 mb-2">Thank you for your report!</h3>
       <p className="text-gray-600 mb-6">
         {isAnonymous
-          ? "Your anonymous feedback has been submitted successfully."
-          : "We've received your feedback and will get back to you soon."}
+          ? "Your anonymous report has been submitted successfully."
+          : "We've received your report and will get back to you soon."}
       </p>
       <Button
         variant="primary"
         onClick={handleReset}
       >
-        Submit Another Feedback
+        Submit Another report
       </Button>
     </div>
   );
