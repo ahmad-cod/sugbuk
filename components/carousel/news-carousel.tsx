@@ -215,7 +215,7 @@ export default function NewsCarousel({
 
   return (
     <section className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-7xl mx-auto px-4 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 tracking-wider">
@@ -230,7 +230,7 @@ export default function NewsCarousel({
             <>
               <button
                 onClick={prevSlide}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg rounded-full p-2 transition-all duration-200 hover:scale-110"
+                className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 bg-transparent hover:bg-white shadow-lg rounded-full p-2 transition-all duration-200 hover:scale-110"
                 aria-label="Previous slide"
               >
                 <ChevronLeft className="w-6 h-6 text-gray-700" />
@@ -238,7 +238,7 @@ export default function NewsCarousel({
               
               <button
                 onClick={nextSlide}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg rounded-full p-2 transition-all duration-200 hover:scale-110"
+                className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 bg-transparent hover:bg-white shadow-lg rounded-full p-2 transition-all duration-200 hover:scale-110"
                 aria-label="Next slide"
               >
                 <ChevronRight className="w-6 h-6 text-gray-700" />
@@ -247,12 +247,11 @@ export default function NewsCarousel({
           )}
 
           {/* Cards Container */}
-          <div className="overflow-hidden rounded-xl">
+          <div className="overflow-hidden">
             <div 
               className="flex transition-transform duration-500 ease-in-out"
               style={{ 
-                transform: `translateX(-${currentIndex * (100 / totalSlides)}%)`,
-                width: `${totalSlides * 100}%`
+                transform: `translateX(-${currentIndex * 100}%)`,
               }}
             >
               {Array.from({ length: totalSlides }).map((_, slideIndex) => {
@@ -264,12 +263,22 @@ export default function NewsCarousel({
                 return (
                   <div 
                     key={slideIndex}
-                    className={`flex gap-6 ${itemsPerSlide === 1 ? 'w-full' : 'w-full'}`}
-                    style={{ width: `${100 / totalSlides}%` }}
+                    className='w-full flex-shrink-0'
+                    // className={`flex gap-6 ${itemsPerSlide === 1 ? 'w-full' : 'w-full'}`}
+                    // style={{ width: `${100 / totalSlides}%` }}
                   >
-                    {slideItems.map((item) => (
-                      <NewsCard key={item.id} item={item} />
-                    ))}
+                    <div
+                      className={`flex ${itemsPerSlide === 1 ? 'justify-center' : 'gap-6'}`}
+                    >
+                      {slideItems.map((item) => (
+                        <div 
+                          key={item.id} 
+                          className={itemsPerSlide === 1 ? 'w-full max-w-lg' : 'flex-1 min-w-0'}
+                        >
+                          <NewsCard item={item} />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 );
               })}
