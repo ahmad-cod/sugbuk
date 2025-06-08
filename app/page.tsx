@@ -1,3 +1,4 @@
+import NewsCarousel from "@/components/carousel/news-carousel";
 import CTA from "@/components/cta";
 import Hero from "@/components/hero";
 import MeetTheTeam from "@/components/meet-the-team";
@@ -8,6 +9,7 @@ export default function Home() {
   return (
     <section className="flex flex-col gap-20">
       <Hero />
+      <NewsCarousel />
       <RecentFeedbacks />
       {/* <MeetTheTeam members={TEAM_MEMBERS} /> */}
       <CTA />
