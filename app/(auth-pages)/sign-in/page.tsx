@@ -210,8 +210,8 @@ export default function SignIn() {
                     <div className="px-2">
                       {
                         showPasswordValue ? 
-                        <EyeOff className='w-8' onClick={() => toggleShowValue(false)} />
-                        : <LucideEye className='w-8' onClick={() => toggleShowValue(true)} />
+                        <LucideEye className='w-8' onClick={() => toggleShowValue(false)} />
+                        : <EyeOff className='w-8' onClick={() => toggleShowValue(true)} />
                       }
                     </div>
                   </motion.div>
