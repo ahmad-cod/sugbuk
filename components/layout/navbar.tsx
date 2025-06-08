@@ -16,17 +16,17 @@ import { reportIssueText } from "@/constants/texts";
 // NavLinks based on authentication state
 const authenticatedLinks = [
   { href: "/talk-to-rep", label: reportIssueText.title },
-  { href: "/feedbacks", label: "Feedbacks" },
+  { href: "/feedbacks", label: "Resolutions" },
 ];
 
 const adminLinks = [
-  { href: "/feedbacks", label: "Feedbacks" },
+  { href: "/feedbacks", label: "Resolutions" },
   { href: "/post/new", label: "Add Update" }
 ]
 
 const unauthenticatedLinks = [
   { href: "/sign-in", label: "Sign In" },
-  { href: "/talk-to-rep", label: "Share a Feedback" },
+  { href: "/talk-to-rep", label: "Share a Concern" },
   // { href: "/sign-up", label: "Sign Up" }, // Commented out because I don't know if we should use this
 ];
 
