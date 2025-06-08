@@ -8,6 +8,7 @@ import Head from 'next/head';
 // import { signIn } from '@/utils/auth';
 import { useProfile } from '@/contexts/ProfileContext';
 import { createClient } from '@/utils/supabase/client';
+import { EyeOff, LucideEye } from 'lucide-react';
 
 // Form input validation types
 type FormData = {
@@ -26,6 +27,7 @@ export default function SignIn() {
   const supabase = createClient()
   const emailInputRef = useRef<HTMLInputElement>(null);
   const { refreshProfile, profile } = useProfile();
+  const [showPasswordValue, toggleShowValue] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
@@ -58,6 +60,7 @@ export default function SignIn() {
     return Object.keys(newErrors).length === 0;
   };
 
+  // const togglePasswordShow = 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -187,14 +190,14 @@ export default function SignIn() {
                   </div>
                   <motion.div
                     whileTap={{ scale: 0.995 }}
-                    className={`relative rounded-lg border ${
+                    className={`flex items-center relative rounded-lg border ${
                       errors.password ? 'border-red-300' : 'border-gray-300'
                     } focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-blue-600 overflow-hidden transition-all`}
                   >
                     <input
                       id="password"
                       name="password"
-                      type="password"
+                      type={showPasswordValue ? "text" : "password"}
                       autoComplete="current-password"
                       required
                       value={formData.password}
@@ -204,6 +207,13 @@ export default function SignIn() {
                       }`}
                       placeholder="••••••••"
                     />
+                    <div className="px-2">
+                      {
+                        showPasswordValue ? 
+                        <EyeOff className='w-8' onClick={() => toggleShowValue(false)} />
+                        : <LucideEye className='w-8' onClick={() => toggleShowValue(true)} />
+                      }
+                    </div>
                   </motion.div>
                   {errors.password && (
                     <motion.p 
