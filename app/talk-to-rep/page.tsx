@@ -10,9 +10,9 @@ function StepNumber({ number }: { number: number }) {
 }
 
 /**
-   * The TalkToRep component renders a page where users can share feedback
-   * with their representatives. It includes a feedback form and an explanation
-   * of the steps taken after feedback submission.
+   * The TalkToRep component renders a page where users can share report
+   * with their representatives. It includes a report form and an explanation
+   * of the steps taken after report submission.
 */
 
 export default function TalkToRep() {
@@ -56,11 +56,11 @@ function WhatHappensNext() {
         <div className="max-w-3xl mx-auto flex flex-col gap-12">
           <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
             <h3 className="text-xl font-semibold text-gray-800 mb-3">What happens next?</h3>
-            <ol className="space-y-4" aria-label="Steps explaining what happens after feedback submission">
+            <ol className="space-y-4" aria-label="Steps explaining what happens after report submission">
               <li className="flex">
                 <StepNumber number={1} />
                 <div>
-                  <p className="text-gray-700">Your feedback is reviewed by the relevant department representatives</p>
+                  <p className="text-gray-700">Your report is reviewed by the relevant department representatives</p>
                 </div>
               </li>
               <li className="flex">
@@ -72,7 +72,7 @@ function WhatHappensNext() {
               <li className="flex">
                 <StepNumber number={3} />
                 <div>
-                  <p className="text-gray-700">Your feedback is discussed in the next SUG meeting</p>
+                  <p className="text-gray-700">Your report is discussed in the next SUG meeting</p>
                 </div>
               </li>
               <li className="flex">

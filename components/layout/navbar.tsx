@@ -11,10 +11,11 @@ import NavLink from "./nav-link";
 import AvatarMenu from "./avatar-menu";
 import AvatarInitials from "./avatar-initials";
 import { useAuth } from "@/contexts/AuthProvider";
+import { reportIssueText } from "@/constants/texts";
 
 // NavLinks based on authentication state
 const authenticatedLinks = [
-  { href: "/talk-to-rep", label: "Talk to Your Rep" },
+  { href: "/talk-to-rep", label: reportIssueText.title },
   { href: "/feedbacks", label: "Feedbacks" },
 ];
 
