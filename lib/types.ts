@@ -99,3 +99,13 @@ export type Update = {
   authorAvatarUrl?: string;
   tags?: string[];
 };
+
+export interface NewsItem {
+  id: string;
+  title: string;
+  image_url: string;
+  author: string;
+  publication_date: string;
+  excerpt?: string;
+  slug: string;
+}
