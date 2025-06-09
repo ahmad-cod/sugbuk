@@ -15,12 +15,15 @@ import { reportIssueText } from "@/constants/texts";
 
 // NavLinks based on authentication state
 const authenticatedLinks = [
+  { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/talk-to-rep", label: reportIssueText.title },
   { href: "/feedbacks", label: "Resolutions" },
 ];
 
 const adminLinks = [
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/about", label: "About Us" },
   { href: "/feedbacks", label: "Resolutions" },
   { href: "/post/new", label: "Add Update" }
 ]
