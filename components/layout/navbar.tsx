@@ -15,6 +15,7 @@ import { reportIssueText } from "@/constants/texts";
 
 // NavLinks based on authentication state
 const authenticatedLinks = [
+  { href: "/about", label: "About Us" },
   { href: "/talk-to-rep", label: reportIssueText.title },
   { href: "/feedbacks", label: "Resolutions" },
 ];
@@ -26,6 +27,7 @@ const adminLinks = [
 
 const unauthenticatedLinks = [
   { href: "/sign-in", label: "Sign In" },
+  { href: "/about", label: "About Us" },
   { href: "/talk-to-rep", label: "Share a Concern" },
   // { href: "/sign-up", label: "Sign Up" }, // Commented out because I don't know if we should use this
 ];
