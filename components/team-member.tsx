@@ -22,7 +22,7 @@ export default function TeamMember({ member }: TeamMemberProps) {
                 sizes="(max-width: 768px) 100vw, 300px"
                 className="object-cover"
               />
-            </div>
+      </div>
       <div className="p-5 text-center">
         <h3 className="text-lg font-semibold text-gray-900 mb-1">
           {member.name}

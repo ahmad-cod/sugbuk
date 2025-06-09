@@ -1,4 +1,4 @@
-import TeamMember from "@/components/team-member";
+import TMember from "@/components/t-member";
 import { TEAM_MEMBERS } from "@/constants/team-members";
 
 export default function About() {
@@ -48,7 +48,7 @@ export default function About() {
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">Meet the Team</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-12">
               {TEAM_MEMBERS.map((member) => (
-                <TeamMember key={member.id} member={member} />
+                <TMember key={member.id} member={member} />
               ))}
             </div>
           </div>

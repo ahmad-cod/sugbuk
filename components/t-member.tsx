@@ -14,13 +14,13 @@ interface TMemberProps {
 export default function TMember({ member }: TMemberProps) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
-      <div className="h-64 bg-gray-100 relative overflow-hidden">
+      <div className="h-[300px] md:h-72 bg-gray-100 relative overflow-hidden">
         <Image
           src={member.image}
           alt={`${member.name} - ${member.position}`}
           fill
           sizes="(max-width: 768px) 100vw, 300px"
-          className="object-cover"
+          className="object-center"
         />
       </div>
       {/* <div className="p-5 text-center">
