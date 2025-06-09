@@ -9,7 +9,7 @@ export const TEAM_MEMBERS = [
   },
   {
     id: 2,
-    name: "Amina Yusuf",
+    name: "Nana Hawau",
     position: "Vice President",
     faculty: "Faculty of Social Sciences",
     image: "/images/president.jpg",

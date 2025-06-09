@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface TeamMemberProps {
   member: {
     id: number;
@@ -12,12 +14,15 @@ interface TeamMemberProps {
 export default function TeamMember({ member }: TeamMemberProps) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg duration-300 transition-shadow">
-      <div className="h-48 bg-gray-200 relative">
-        {/* Image placeholder */}
-        <div className="absolute inset-0 flex items-center justify-center text-gray-500">
-          Profile Photo
-        </div>
-      </div>
+      <div className="h-64 bg-gray-100 relative overflow-hidden">
+              <Image
+                src={member.image}
+                alt={`${member.name} - ${member.position}`}
+                fill
+                sizes="(max-width: 768px) 100vw, 300px"
+                className="object-cover"
+              />
+            </div>
       <div className="p-5 text-center">
         <h3 className="text-lg font-semibold text-gray-900 mb-1">
           {member.name}
