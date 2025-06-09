@@ -46,6 +46,33 @@ export default function ReportsPage() {
     fetchReports();
   }, [isAdmin, adminLoading]);
 
+  const editStatus = async (reportId: string, newStatus: string) => {
+    const { error } = await supabase
+      .from('reports')
+      .update({ status: newStatus })
+      .eq('id', reportId);
+    if (error) {
+      console.error('Error updating report status:', error);
+    } else {
+      setReports((prev) =>
+        prev.map((report) =>
+          report.id === reportId ? { ...report, status: newStatus } : report
+        )
+      );
+    }
+  };
+  const deleteReport = async (reportId: string) => {
+    const { error } = await supabase
+      .from('reports')
+      .delete()
+      .eq('id', reportId);
+    if (error) {
+      console.error('Error deleting report:', error);
+    } else {
+      setReports((prev) => prev.filter((report) => report.id !== reportId));
+    }
+  };
+
   if (loading || adminLoading) return <p>Loading...</p>;
 
   return (
@@ -61,12 +88,14 @@ export default function ReportsPage() {
               <p className="text-sm text-gray-600">{report.description}</p>
               <p className="text-xs text-gray-400 mt-1">Status: {report.status}</p>
               <p className="text-xs text-gray-400">Submitted: {new Date(report.created_at).toLocaleString()}</p>
-              {isAdmin && (
+              {/* {isAdmin && (
                 <div className="mt-2 flex gap-2">
                   <button className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Edit Status</button>
-                  <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+                  <button 
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                  >Delete</button>
                 </div>
-              )}
+              )} */}
             </div>
           ))}
         </div>
