@@ -1,62 +1,76 @@
-'use client'
+"use client"
+import { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
+import SectionTitle from '@/components/ui/section-title';
 
-import { createClient } from "@/utils/supabase/client"
-import { useEffect, useState } from "react"
+interface Report {
+  id: string;
+  user_id: string;
+  title: string;
+  description: string;
+  status: string;
+  created_at: string;
+}
 
 export default function ReportsPage() {
-  const [reports, setReports] = useState<any[] | null>(null)
-  const supabase = createClient()
+  const { isAdmin, loading: adminLoading } = useIsAdmin();
+  const supabase = createClient();
+
+  const [reports, setReports] = useState<Report[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getData = async () => {
-      const { data } = await supabase.from('reports').select()
-      setReports(data)
+    if (adminLoading) return; // Wait until admin check is complete
+
+    async function fetchReports() {
+      setLoading(true);
+      const { data: { session } } = await supabase.auth.getSession();
+      const userId = session?.user.id;
+
+      let query = supabase.from('reports').select('*').order('created_at', { ascending: false });
+
+      if (!isAdmin) {
+        query = query.eq('user_id', userId);
+      }
+
+      const { data, error } = await query;
+      if (error) {
+        console.error('Error fetching reports:', error);
+      } else {
+        setReports(data || []);
+      }
+      setLoading(false);
     }
 
-    getData()
-  }, [])
+    fetchReports();
+  }, [isAdmin, adminLoading]);
 
-  if (!reports) {
-    return <div>Loading...</div>
-  }
+  if (loading || adminLoading) return <p>Loading...</p>;
+
   return (
-    <div>
-      <h1>Reports</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Created At</th>
-            {/* <th>Recommendation</th> */}
-            <th>Status</th>
-            <th>Private</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div className="p-6">
+      <SectionTitle title='Reports' />
+      {reports.length === 0 ? (
+        <p>No reports found.</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {reports.map((report) => (
-            <tr key={report.id}>
-              <td>{report.id}</td>
-              <td>{report.title}</td>
-              <td>{report.description}</td>
-              <td>{new Date(report.created_at).toLocaleString()}</td>
-              {/* <td>{report.recommendation}</td> */}
-              <td>{report.current_status}</td>
-              <td>{report.is_private ? 'Yes' : 'No'}</td>
-              <td>
-                <button>Edit</button>
-                <button>Delete</button>
-              </td>
-            </tr>
+            <div key={report.id} className="border p-4 rounded-xl shadow-sm">
+              <h2 className="text-lg font-semibold">{report.title}</h2>
+              <p className="text-sm text-gray-600">{report.description}</p>
+              <p className="text-xs text-gray-400 mt-1">Status: {report.status}</p>
+              <p className="text-xs text-gray-400">Submitted: {new Date(report.created_at).toLocaleString()}</p>
+              {isAdmin && (
+                <div className="mt-2 flex gap-2">
+                  <button className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Edit Status</button>
+                  <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+                </div>
+              )}
+            </div>
           ))}
-        </tbody>
-      </table>
-      <button>Add Report</button>
-      <button>Export</button>
-      <button>Download</button>
-      <button>Sync</button>
-      <button>Search</button>
-      </div>
-  )
+        </div>
+      )}
+    </div>
+  );
 }
