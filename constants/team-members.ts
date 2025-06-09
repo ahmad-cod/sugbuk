@@ -12,7 +12,7 @@ export const TEAM_MEMBERS = [
     name: "Nana Hawau",
     position: "Vice President",
     faculty: "Faculty of Social Sciences",
-    image: "/images/president.jpg",
+    image: "/images/nana_hawau.jpg",
     contact: "vp@sugbuk.org"
   },
   {
