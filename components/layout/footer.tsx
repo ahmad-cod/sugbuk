@@ -110,7 +110,7 @@ const Footer: React.FC = () => {
               About
             </Link>
             <Link 
-              href="/contact" 
+              href="mailto:sugbuk2025@gmail.com" 
               className="text-slate-400 hover:text-sky-400 transition-colors duration-300 hover:underline underline-offset-4"
             >
               Contact SUG
@@ -121,12 +121,12 @@ const Footer: React.FC = () => {
             >
               Updates
             </Link>
-            <Link 
+            {/* <Link 
               href="/bulletin" 
               className="text-slate-400 hover:text-sky-400 transition-colors duration-300 hover:underline underline-offset-4"
             >
               Weekly Bulletin
-            </Link>
+            </Link> */}
           </div>
 
           {/* Divider */}
@@ -149,7 +149,7 @@ const Footer: React.FC = () => {
                 href="https://wa.link/qxh24l"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-sky-400 hover:text-sky-300 transition-colors duration-300 flex items-center space-x-1 group-hover:underline underline-offset-4"
+                className="font-medium text-slate-300 hover:text-sky-300 transition-colors duration-300 flex items-center space-x-1 group-hover:underline underline-offset-4"
               >
                 <span>Ahmad Aroyehun</span>
                 <ExternalLink className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
