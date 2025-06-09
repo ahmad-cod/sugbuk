@@ -20,7 +20,7 @@ export function useIsAdmin(): { isAdmin: boolean, loading: boolean } {
         const { data, error } = await supabase
           .from('profiles')
           .select('role')
-          .eq('id', profile.user_id)
+          .eq('id', profile.id)
           .single();
 
         if (error) throw error;
