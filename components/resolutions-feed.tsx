@@ -147,7 +147,7 @@ const ResolutionsFeed: React.FC = () => {
     
     if (imageCount === 2) {
       return (
-        <div className="grid grid-cols-1 grid-rows-2 gap-1 h-80">
+        <div className="grid grid-cols-2 gap-1 h-80">
           {images.map((img: string, idx: number) => (
             <div key={idx} className="cursor-pointer" onClick={() => openFullscreen(images, idx)}>
               <img src={img} alt="" className="w-full h-full object-cover rounded-lg" />
