@@ -1,7 +1,6 @@
 export interface CreatePostData {
   title?: string;
   content: string;
-  author: string;
   images?: File[];
   priority: 'low' | 'medium' | 'high';
   category: 'resolution' | 'announcement' | 'event' | 'general';
@@ -11,7 +10,7 @@ export interface Post {
   id: string;
   title?: string;
   content: string;
-  author: string;
+  author_id: number;
   images?: string[];
   priority: 'low' | 'medium' | 'high';
   category: 'resolution' | 'announcement' | 'event' | 'general';

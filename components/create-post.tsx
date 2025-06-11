@@ -4,7 +4,6 @@ import { X, Upload, Image as ImageIcon, AlertCircle, Check, Plus, Trash2 } from 
 import { CreatePostData, Post } from '@/types/post';
 import { useCreatePost } from '@/hooks/useCreatePost';
 import { useCloudinaryUpload } from '@/hooks/useCloudinaryUpload';
-import { image } from '@uiw/react-md-editor';
 import toast from 'react-hot-toast';
 
 interface CreatePostFormProps {
@@ -14,7 +13,6 @@ interface CreatePostFormProps {
 const AdminPostCreator: React.FC<CreatePostFormProps> = ({ onPostCreated }) => {
   const [formData, setFormData] = useState<CreatePostData>({
     content: '',
-    author: '',
     priority: 'medium',
     category: 'resolution',
   });
@@ -54,7 +52,6 @@ const AdminPostCreator: React.FC<CreatePostFormProps> = ({ onPostCreated }) => {
 
    const resetForm = (): void => {
     setFormData({
-      author: '',
       title: '',
       content: '',
       category: 'resolution',
@@ -81,9 +78,9 @@ const AdminPostCreator: React.FC<CreatePostFormProps> = ({ onPostCreated }) => {
       newErrors.content = 'Content is required';
     }
     
-    if (!formData.author.trim()) {
-      newErrors.author = 'Author name is required';
-    }
+    // if (!formData.author.trim()) {
+    //   newErrors.author = 'Author name is required';
+    // }
     
     if (formData.content.length > 5000) {
       newErrors.content = 'Content must be less than 5000 characters';
@@ -231,7 +228,7 @@ const AdminPostCreator: React.FC<CreatePostFormProps> = ({ onPostCreated }) => {
             <div className="p-6 space-y-6">
               {/* Author and Category Row */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
+                {/* <div className="space-y-2">
                   <label htmlFor="author" className="block text-sm font-medium text-gray-700">
                     Author Name
                   </label>
@@ -249,7 +246,7 @@ const AdminPostCreator: React.FC<CreatePostFormProps> = ({ onPostCreated }) => {
                       <span>{errors.author}</span>
                     </p>
                   )}
-                </div>
+                </div> */}
 
                 <div className="space-y-2">
                   <label htmlFor="category" className="block text-sm font-medium text-gray-700">
@@ -424,14 +421,7 @@ const AdminPostCreator: React.FC<CreatePostFormProps> = ({ onPostCreated }) => {
             <button
               type="button"
               onClick={() => {
-                setFormData({
-                  author: '',
-                  title: '',
-                  content: '',
-                  priority: 'medium',
-                  category: 'resolution',
-                });
-                setSelectedImages([]);
+                resetForm();
                 setErrors({});
               }}
               className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-colors"
