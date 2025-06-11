@@ -25,7 +25,7 @@ const adminLinks = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/about", label: "About Us" },
   { href: "/feedbacks", label: "Resolutions" },
-  { href: "/post/new", label: "Add Update" }
+  { href: "/post/create", label: "Add Update" }
 ]
 
 const unauthenticatedLinks = [
