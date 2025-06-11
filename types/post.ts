@@ -11,7 +11,7 @@ export interface Post {
   title?: string;
   content: string;
   author_id: number;
-  images?: string[];
+  image_urls?: string[];
   priority: 'low' | 'medium' | 'high';
   category: 'resolution' | 'announcement' | 'event' | 'general';
   likes: number;
@@ -20,6 +20,12 @@ export interface Post {
   created_at: string;
   updated_at: string;
   user_id: string;
+  author?: {
+    first_name: string;
+    last_name: string;
+    full_name: string;
+    avatar_url: string | null;
+  }
 }
 
 export interface UsePostsReturn {
