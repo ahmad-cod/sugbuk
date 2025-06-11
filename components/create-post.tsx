@@ -5,6 +5,7 @@ import { CreatePostData, Post } from '@/types/post';
 import { useCreatePost } from '@/hooks/useCreatePost';
 import { useCloudinaryUpload } from '@/hooks/useCloudinaryUpload';
 import toast from 'react-hot-toast';
+import { maxPostContentLength } from '@/constants/texts';
 
 interface CreatePostFormProps {
   onPostCreated?: (post: Post) => void;
@@ -82,8 +83,8 @@ const AdminPostCreator: React.FC<CreatePostFormProps> = ({ onPostCreated }) => {
     //   newErrors.author = 'Author name is required';
     // }
     
-    if (formData.content.length > 5000) {
-      newErrors.content = 'Content must be less than 5000 characters';
+    if (formData.content.length > maxPostContentLength) {
+      newErrors.content = `Content must be less than ${maxPostContentLength} characters`;
     }
 
     setErrors(newErrors);
@@ -296,7 +297,7 @@ const AdminPostCreator: React.FC<CreatePostFormProps> = ({ onPostCreated }) => {
                   placeholder="Share your resolution, announcement, or update..."
                 />
                 <div className="flex justify-between items-center text-xs text-gray-500">
-                  <span>{formData.content.length}/5000 characters</span>
+                  <span>{formData.content.length}/{maxPostContentLength} characters</span>
                   {errors.content && (
                     <p className="text-red-600 flex items-center space-x-1">
                       <AlertCircle className="h-4 w-4" />

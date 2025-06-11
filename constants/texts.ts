@@ -23,3 +23,5 @@ export const reportIssueText = {
     "Have a concern or feedback? Use our platform to report issues directly to your representatives. Your voice matters, and we ensure it reaches the right ears.",
   cta: "Submit Your Report",
 }
+
+export const maxPostContentLength = 1000;
