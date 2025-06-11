@@ -255,6 +255,7 @@ const ResolutionsFeed: React.FC = () => {
     return words.slice(0, maxWords).join(' ');
   };
 
+
   return (
     <div className="max-w-2xl mx-auto bg-gray-50 min-h-screen">
       <div className="space-y-4 p-4">
@@ -263,7 +264,11 @@ const ResolutionsFeed: React.FC = () => {
           const { first_name, last_name, full_name, avatar_url } = author!
 
           const isExpanded: boolean = expandedPosts.has(id);
-          const fullText: string = title ? title + content : content;
+          // const fullText: string = title ? title + '\n\n' + content : content;
+          const fullText: string = content;
+          // if content is a string, with multiple new lines, split it into paragraphs
+          // const fullText: string = content.split('\n').map((line) => line.trim()).join(' ');
+          const paragraphs: string[] = fullText.split('\n').map((line) => line.trim()).filter((line) => line.length > 0);
           const truncatedText: string = truncateText(fullText);
           const shouldTruncate: boolean = fullText.length > truncatedText.length;
 
@@ -300,10 +305,18 @@ const ResolutionsFeed: React.FC = () => {
 
               {/* Post Content */}
               <div className="px-4 pb-3">
-                <p className="text-gray-800 text-sm leading-relaxed">
-                  {isExpanded ? fullText : truncatedText}
+                {title && <h2 className="font-medium text-gray-800 mb-2">{title}</h2>}
+                               
+                
+                   
+                {!isExpanded ? (<p className="text-gray-800 text-sm leading-relaxed inline">{truncatedText}</p>)
+                 : 
+                paragraphs.length > 0 && paragraphs.map((paragraph, index) => (
+                  <p key={index} className="text-gray-800 text-sm leading-relaxed mb-2">
+                    {paragraph}
+                  </p>
+                ))}
                   {shouldTruncate && !isExpanded && '...'}
-                </p>
                 {shouldTruncate && (
                   <button
                     onClick={() => toggleExpanded(post.id)}
