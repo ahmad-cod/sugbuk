@@ -39,9 +39,9 @@ export async function middleware(request: NextRequest) {
 
     const isAdmin = user.user_metadata.role === 'admin'
 
-    if (path === '/' && isAdmin) {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
+    // if (path === '/' && isAdmin) {
+    //   return NextResponse.redirect(new URL('/dashboard', request.url))
+    // }
     // admin only, can access dashboard
     if (path.startsWith('/dashboard')) {
       if (!isAdmin) {
