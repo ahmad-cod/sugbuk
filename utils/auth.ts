@@ -47,7 +47,7 @@ export const signUp = async (formData: AuthFormData) => {
   });
 
  if (error) {
-  return { status: "error", message: error.message };
+  return { status: "error", error };
 }
 
 return { status: "success", message: "Thanks for signing up!" };

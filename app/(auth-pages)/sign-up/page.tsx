@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { signUp } from '@/utils/auth';
 import toast from 'react-hot-toast';
 import { EyeOff, LucideEye } from 'lucide-react';
+import { toastCheckEmail } from '@/utils/toastCheckEmail';
 
 // Form input validation types
 type FormData = {
@@ -107,14 +108,15 @@ export default function SignUp() {
     try {
       // console.log('Submitting:', formData)
       
-      await signUp({
+      const { error } = await signUp({
         email: formData.email,
         password: formData.password,
       })
 
-
-      // new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
-
+      // send a toast notification on successful signup
+       if (!error?.message) {
+        toastCheckEmail(formData.email);
+      }
       setFormData({
         email: '',
         password: '',
@@ -122,10 +124,13 @@ export default function SignUp() {
       });
       setPasswordStrength(0);
       setErrors({});
-      // send a toast notification
-      toast.success("Thanks for signing up!\n\nKindly check your email for a verification link.");
+      
+      
+     
+      // toast.success("Thanks for signing up!\n\nKindly check your email for a verification link.");
     } catch (error) {
       console.error('Signup error:', error);
+      toast.error(error instanceof Error ? error.message : 'An unexpected error occurred');
       setErrors({ 
         ...errors, 
         email: "This email may already be in use" 
