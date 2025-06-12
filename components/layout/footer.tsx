@@ -10,6 +10,7 @@ import X from '../icons/x.svg'
 import Instagram from '../icons/instagram.svg'
 import Tiktok from '../icons/tiktok.svg'
 import Image from 'next/image';
+import { sugMail } from '@/lib/constants';
 
 
 const Footer: React.FC = () => {
@@ -36,13 +37,13 @@ const Footer: React.FC = () => {
     },
     {
       name: 'Tiktok',
-      href: 'https://linkedin.com/company/sug_buk',
+      href: 'https://www.tiktok.com/@sug_buk',
       icon: Tiktok,
       color: 'hover:text-black'
     },
     {
       name: 'Email',
-      href: 'mailto:contact@sugbukbulletin@gmail.com',
+      href: sugMail,
       icon: Mail,
       color: 'hover:text-emerald-400'
     }
@@ -110,7 +111,8 @@ const Footer: React.FC = () => {
               About
             </Link>
             <Link 
-              href="mailto:sugbuk2025@gmail.com" 
+              href={sugMail}
+              target="_blank"
               className="text-slate-400 hover:text-sky-400 transition-colors duration-300 hover:underline underline-offset-4"
             >
               Contact SUG

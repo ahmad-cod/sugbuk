@@ -26,3 +26,12 @@ export const categories = [
 ];
 
 // 148cb1 ===> color blue for sug logo, svgtrace
+
+export const sugMail = "mailto:sugbuk2025@gmail.com"
+
+export const socialLinks = [
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/sugbukofficial",
+  },
+]
