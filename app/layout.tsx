@@ -34,8 +34,46 @@ export const metadata: Metadata = {
     default: "SUGBUK - Student Union Government | Bayero University, Kano",
     template: "%s | SUG-BUK",
   },
-  description:
-    "Official platform for the Student Union Government of Bayero University, Kano.",
+  description: "Official platform for the Student Union Government of Bayero University, Kano.",
+  icons: {
+    icon: "/sug-logo.jpeg",
+    shortcut: "/sug-logo.jpeg",
+    apple: "/sug-logo.jpeg",
+  },
+  openGraph: {
+    title: "SUGBUK - Student Union Government | Bayero University, Kano",
+    description: "Official platform for the Student Union Government of Bayero University, Kano.",
+    url: defaultUrl,
+    siteName: "SUG-BUK",
+    images: [
+      {
+        url: `${defaultUrl}/sug-logo.jpeg`,
+        width: 1200,
+        height: 630,
+        alt: "SUGBUK Logo",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SUGBUK - Student Union Government | Bayero University, Kano",
+    description: "Official platform for the Student Union Government of Bayero University, Kano.",
+    images: [`${defaultUrl}/sug-logo.jpeg`],
+    creator: "@sugbukofficial",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 const geistSans = Geist({
