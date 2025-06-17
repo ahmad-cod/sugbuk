@@ -36,9 +36,10 @@ export const metadata: Metadata = {
   },
   description: "Official platform for the Student Union Government of Bayero University, Kano.",
   icons: {
-    icon: "/sug-logo.jpeg",
-    shortcut: "/sug-logo.jpeg",
-    apple: "/sug-logo.jpeg",
+    icon: "/favicon.ico",
+    shortcut: "/favicon-32x32.png",
+    apple: "/apple-touch-icon.png",
+    
   },
   openGraph: {
     title: "SUGBUK - Student Union Government | Bayero University, Kano",
