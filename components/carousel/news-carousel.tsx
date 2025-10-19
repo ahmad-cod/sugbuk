@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { createClient } from '@/utils/supabase/client';
 import { NewsItem } from '@/lib/types';
 import NewsCard from '../news-card';
 
@@ -14,7 +13,6 @@ interface NewsCarouselProps {
 }
 
 // Supabase client
-const supabase = createClient();
 
 export default function NewsCarousel({ 
   autoPlay = true, 

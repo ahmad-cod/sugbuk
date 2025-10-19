@@ -31,7 +31,7 @@ const Hero: React.FC = () => {
 
   return (
     <section
-      className="w-full min-h-[400px] bg-no-repeat bg-cover bg-center text-white transition-all duration-1000 ease-in-out"
+      className="w-full min-h-[500px] bg-no-repeat bg-cover bg-center text-white transition-all duration-1000 ease-in-out"
       style={{ backgroundImage: `url(${bgUrls[currentBgIndex]})` }}
     >
       <div className="max-w-screen-2xl bg-black/70 mx-auto px-4 py-16 sm:px-20 lg:px-24 md:py-24 lg:py-32">

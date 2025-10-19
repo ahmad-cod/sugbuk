@@ -5,28 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { useProfile } from "@/contexts/ProfileContext";
 import NavLink from "./nav-link";
-import AvatarMenu from "./avatar-menu";
-import AvatarInitials from "./avatar-initials";
-import { useAuth } from "@/contexts/AuthProvider";
-import { reportIssueText } from "@/constants/texts";
 
-// NavLinks based on authentication state
-const authenticatedLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
-  { href: "/talk-to-rep", label: reportIssueText.title },
-  { href: "/feedbacks", label: "Resolutions" },
-];
-
-const adminLinks = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/about", label: "About Us" },
-  { href: "/feedbacks", label: "Resolutions" },
-  { href: "/post/create", label: "Add Update" }
-]
 
 const unauthenticatedLinks = [
   { href: "/sign-in", label: "Sign In" },
@@ -38,9 +18,6 @@ const unauthenticatedLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { session, loading } = useAuth()
-  const { profile, isLoading, logout } = useProfile();
-  const [loadingError, setLoadingError] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null)
 
@@ -62,28 +39,14 @@ export default function Navbar() {
     };
   }, [navRef]);
 
-  // useEffect(() => {
-  //   if (isLoading) {
-  //     const timeout = setTimeout(() => setLoadingError(true), 10000); // 10 seconds timeout
-  //     return () => clearTimeout(timeout);
-  //   }
-  //   setLoadingError(false);
-  // }, [isLoading]);
-  const pathname = usePathname();
-  const router = useRouter();
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      router.push("/");
-    } catch (error) {
-      console.error("Error logging out: ", error);
-    }
-  };
+  const pathname = usePathname();
+
+
 
   const closeMenu = () => setIsOpen(false);
 
-  const Navlinks = profile?.role === "admin" ? adminLinks : profile ? authenticatedLinks : unauthenticatedLinks;
+  const Navlinks = unauthenticatedLinks;
 
   return (
     <nav className="bg-white text-[#333333] shadow-md sticky top-0 z-40">
@@ -114,19 +77,7 @@ export default function Navbar() {
                 />
               ))}
             </div>
-            {/* Right side - Avatar for desktop */}
-            { profile &&
-            <div className="hidden sm:flex sm:items-center">
-              {isLoading ? (
-                loadingError ? (
-                  <div className="text-sm text-red-500">Failed to load profile</div>
-                ) : (
-                  <div className="h-10 w-10 rounded-full bg-gray-200 animate-pulse"></div>
-                )
-              ) : profile ? (
-                <AvatarMenu profile={profile} signOut={handleLogout} />
-              ) : null}
-            </div>}
+           
           </div>
 
 
@@ -205,47 +156,6 @@ export default function Navbar() {
                 />
               ))}
               
-              {profile && (
-                <div className="grid place-content-center mt-4 pt-4 border-t border-gray-200">
-                  <div className="flex items-center px-3 py-2">
-                    {profile.avatar_url ? (
-                      <Image
-                        src={profile.avatar_url}
-                        alt="User avatar"
-                        width={40}
-                        height={40}
-                        className="h-8 w-8 rounded-full object-cover"
-                      />
-                    ) : (
-                      <AvatarInitials firstname={profile.first_name} lastname={profile.last_name} />
-                    )}
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-700">
-                        {profile.first_name} {profile.last_name}
-                      </p>
-                      {/* <p className="text-xs text-gray-500 truncate">{profile.email}</p> */}
-                    </div>
-                  </div>
-                  
-                  {/* <Link
-                    href="/profile"
-                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 transition-colors duration-150"
-                    onClick={closeMenu}
-                  >
-                    Profile
-                  </Link> */}
-                  
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      closeMenu();
-                    }}
-                    className="block w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 transition-colors duration-150"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
             </div>
           </motion.div>
         )}
