@@ -49,8 +49,8 @@ export default function Navbar() {
   const Navlinks = unauthenticatedLinks;
 
   return (
-    <nav className="bg-white text-[#333333] shadow-md sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="bg-white/90 text-[#333333] shadow-md sticky top-0 z-40 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex justify-between h-16">
           {/* Logo and Desktop Navigation */}
           <div className="flex justify-between items-center w-full">
@@ -59,8 +59,8 @@ export default function Navbar() {
                 <Image
                   src="/sug-logo.jpeg"
                   alt="SUGBUK Logo"
-                  width={80}
-                  height={80}
+                  width={70}
+                  height={70}
                   className="h-12 md:h-14 w-auto"
                 />
               </Link>
