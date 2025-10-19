@@ -68,13 +68,13 @@ export const Navigation = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 space-y-3 animate-fadeIn">
-            <button onClick={() => scrollToSection('hero')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+            <button onClick={() => scrollToSection('hero')} className="block w-full text-left px-4 py-2 text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">
               Home
             </button>
-            <button onClick={() => scrollToSection('about')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+            <button onClick={() => scrollToSection('about')} className="block w-full text-left px-4 py-2 text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">
               About Us
             </button>
-            <button onClick={() => scrollToSection('feedback')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+            <button onClick={() => scrollToSection('feedback')} className="block w-full text-left px-4 py-2 text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">
               Feedback
             </button>
             <button 
