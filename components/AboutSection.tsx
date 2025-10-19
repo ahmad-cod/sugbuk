@@ -1,8 +1,7 @@
 import { MessageCircle, Users, Calendar } from 'lucide-react';
 
 
-// About Section Component
-const AboutSection = () => {
+export const AboutSection = () => {
   return (
     <section id="about" className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">

@@ -3,7 +3,7 @@ import { Menu, X, Send, MessageCircle, Users, Calendar, ChevronRight } from 'luc
 
 
 // Hero Section Component
-const HeroSection = () => {
+export const HeroSection = () => {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Background Image with Overlay */}

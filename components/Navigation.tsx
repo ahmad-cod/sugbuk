@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-// Navigation Component
-const Navigation = () => {
+
+export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -22,8 +22,8 @@ const Navigation = () => {
   };
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white shadow-lg py-3' : 'bg-white/95 backdrop-blur-sm py-4'
+    <nav className={`sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 transition-all duration-300 ${
+      isScrolled ? 'py-3' : 'py-4'
     }`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -39,13 +39,13 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <button onClick={() => scrollToSection('hero')} className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            <button onClick={() => scrollToSection('hero')} className="text-gray-900 hover:text-blue-600 font-medium transition-colors">
               Home
             </button>
-            <button onClick={() => scrollToSection('about')} className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            <button onClick={() => scrollToSection('about')} className="text-gray-900 hover:text-blue-600 font-medium transition-colors">
               About Us
             </button>
-            <button onClick={() => scrollToSection('feedback')} className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            <button onClick={() => scrollToSection('feedback')} className="text-gray-900 hover:text-blue-600 font-medium transition-colors">
               Feedback
             </button>
             <button 
